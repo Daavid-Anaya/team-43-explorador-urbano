@@ -46,6 +46,12 @@ Los artefactos técnicos se mantienen en inglés y son la fuente de verdad para 
 
 Si el código y OpenSpec no coinciden, se debe pausar y actualizar el plan antes de ampliar implementación. No inventar alcance de forma silenciosa.
 
+## Trabajo con Kiro
+
+Los colaboradores que usen Amazon/AWS Kiro deben leer primero `.kiro/README.md` y los archivos en `.kiro/steering/`. Ese contexto guía al agente sobre el producto, el flujo GitHub Flow, el stack previsto y la regla principal: OpenSpec/SDD es la fuente de verdad para implementar.
+
+No se mantiene una copia de specs en `.kiro/specs/` por ahora. Esto evita duplicar requisitos y reduce el riesgo de que Kiro y OpenSpec se desincronicen.
+
 ## Flujo de Colaboración
 
 Trabajamos con GitHub Flow y cambios revisables.
