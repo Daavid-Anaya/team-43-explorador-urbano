@@ -1,0 +1,70 @@
+schema: spec-driven
+
+context: |
+  Project: hackaton-kiro-aws
+  Stack: not detected yet (repository bootstrap state)
+  Architecture: not detected yet
+  Testing: no runner configured
+  Collaboration: 3 developers, SDD expected to stop at task delegation by default
+  Persistence: hybrid (OpenSpec + Engram)
+
+strict_tdd: false
+
+testing:
+  strict_tdd: false
+  detected: 2026-07-22
+  runner:
+    framework: none
+    command: ""
+  layers:
+    unit:
+      available: false
+      tool: "—"
+    integration:
+      available: false
+      tool: "—"
+    e2e:
+      available: false
+      tool: "—"
+  coverage:
+    available: false
+    command: "—"
+  quality:
+    linter:
+      available: false
+      command: "—"
+    type_checker:
+      available: false
+      command: "—"
+    formatter:
+      available: false
+      command: "—"
+
+rules:
+  proposal:
+    - Write artifacts in English.
+    - State impact on parallel work across 3 developers.
+    - Include rollback plan for risky changes.
+  specs:
+    - Write artifacts in English.
+    - Use Given/When/Then for scenarios.
+    - Use RFC 2119 keywords (MUST, SHOULD, MAY).
+  design:
+    - Write artifacts in English.
+    - Document architecture decisions and team ownership boundaries.
+  tasks:
+    - Write artifacts in English.
+    - Group work for delegation across 3 developers.
+    - Keep tasks independently reviewable within ~400 changed lines when possible.
+  apply:
+    guidelines:
+      - Implementation is opt-in later; default workflow stops at task delegation.
+      - Follow existing project patterns once source code exists.
+    tdd: false
+    test_command: ""
+  verify:
+    test_command: ""
+    build_command: ""
+    coverage_threshold: 0
+  archive:
+    - Preserve completed change history in openspec/changes/archive.

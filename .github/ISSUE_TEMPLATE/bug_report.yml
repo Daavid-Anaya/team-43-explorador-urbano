@@ -1,0 +1,118 @@
+name: Reporte de bug
+description: Reportar un bug o regresión reproducible.
+title: "fix(scope): short bug summary"
+labels: ["bug", "status:needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use esta plantilla para comportamiento roto, inesperado o regresivo. Mantenga el reporte reproducible y enlace cualquier requisito SDD que el bug incumpla.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Chequeos previos
+      options:
+        - label: He buscado issues existentes y esto no es un duplicado.
+          required: true
+        - label: He incluido pasos claros de reproducción o expliqué por qué el bug todavía no se puede reproducir.
+          required: true
+        - label: Entiendo que este issue necesita revisión antes de abrir un PR de fix.
+          required: true
+
+  - type: input
+    id: sdd-reference
+    attributes:
+      label: Referencia SDD, si aplica
+      description: Enlace el requisito, escenario o tarea que este bug afecta.
+      placeholder: "Ejemplo: openspec/changes/urban-explorer-mvp/specs/challenge-completion/spec.md"
+    validations:
+      required: false
+
+  - type: input
+    id: owner-slice
+    attributes:
+      label: Responsable / slice
+      description: Indique responsable probable, lane o slice de PR.
+      placeholder: "Ejemplo: Dev B - función submit-completion"
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Descripción del bug
+      description: Explique qué está roto y por qué importa.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos para reproducir
+      description: Use pasos numerados. Incluya datos semilla, navegador, estado de cuenta y detalles de entorno cuando sean relevantes.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamiento esperado
+      description: ¿Qué debería suceder?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Comportamiento actual
+      description: ¿Qué sucede en cambio? Incluya errores, logs, capturas o respuestas de red cuando ayuden.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Criterios de aceptación del fix
+      description: Enumere qué debe cumplirse antes de poder cerrar el bug.
+      placeholder: |
+        - [ ] ...
+        - [ ] Cobertura de regresión agregada o explícitamente no posible porque ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: Plan de verificación
+      description: Indique pruebas, chequeos de build o verificaciones manuales de reproducción para el fix.
+      placeholder: |
+        - Chequeo que falla antes del fix: ...
+        - Chequeo que pasa después del fix: ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: review-status
+    attributes:
+      label: Estado de revisión
+      options:
+        - Necesita revisión
+        - Aprobado para implementación
+        - Bloqueado
+        - Listo para PR
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra-context
+    attributes:
+      label: Contexto adicional
+      description: Agregue capturas, logs, causa sospechada o workaround.
+      render: shell
+    validations:
+      required: false

@@ -1,0 +1,115 @@
+name: Tarea de feature SDD
+description: Planificar e implementar una tarea o slice de feature desde los artefactos OpenSpec.
+title: "feat(scope): short task summary"
+labels: ["enhancement", "status:needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use esta plantilla para trabajo de implementación respaldado por SDD. Toda tarea debe partir de un issue aprobado, mapear a una tarea OpenSpec y mantenerse revisable dentro de GitHub Flow.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Chequeos previos
+      description: Confirme que este issue está listo para entrar en la cola de GitHub Flow.
+      options:
+        - label: He buscado issues existentes y esto no es un duplicado.
+          required: true
+        - label: He revisado `openspec/changes/urban-explorer-mvp/tasks.md` para encontrar la tarea o slice de PR correspondiente.
+          required: true
+        - label: Entiendo que este issue necesita revisión antes de iniciar la implementación.
+          required: true
+
+  - type: input
+    id: sdd-reference
+    attributes:
+      label: Referencia SDD
+      description: Enlace la tarea OpenSpec, spec, sección de diseño o slice de PR.
+      placeholder: "Ejemplo: openspec/changes/urban-explorer-mvp/tasks.md#11-a-create-app-bootstrap"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: pr-slice
+    attributes:
+      label: Slice de PR
+      description: Seleccione el slice de revisión previsto desde el plan de tareas SDD.
+      options:
+        - PR1 bootstrap + base Amplify
+        - PR2 flujo de completado
+        - PR3 progresión + deploy + demo
+        - Solo documentación/configuración
+        - Todavía no está claro
+    validations:
+      required: true
+
+  - type: input
+    id: owner-slice
+    attributes:
+      label: Responsable / slice
+      description: Indique responsable y lane para poder seguir el trabajo en el tablero del proyecto.
+      placeholder: "Ejemplo: Dev A - shell frontend y descubrimiento"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Resumen
+      description: Describa el resultado, el valor para usuarios y los límites de esta tarea.
+      placeholder: "Este issue agrega... para que... No incluye..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Criterios de aceptación
+      description: Enumere requisitos observables que reviewers puedan verificar.
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: Plan de verificación
+      description: Indique la prueba enfocada, build o chequeo manual. Si los scripts todavía no existen, registre el comando esperado o gap de bootstrap.
+      placeholder: |
+        - Prueba enfocada: `npm run test -- ...` o N/A porque ...
+        - Chequeo runtime/manual: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: review-budget
+    attributes:
+      label: Presupuesto de review
+      description: Mantenga los PRs cerca de 400 líneas modificadas. Explique la división si esta tarea puede superar ese tamaño.
+      placeholder: "Tamaño esperado: menos de 400 líneas modificadas. Plan de división: ..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: review-status
+    attributes:
+      label: Estado de revisión
+      description: Estado actual de triage para este issue.
+      options:
+        - Necesita revisión
+        - Aprobado para implementación
+        - Bloqueado
+        - Listo para PR
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notas, dependencias o riesgos
+      description: Agregue bloqueos, issues relacionados, notas de rollback o restricciones de implementación.
+    validations:
+      required: false

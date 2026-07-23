@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Project README
+    url: https://github.com/Daavid-Anaya/team-43-explorador-urbano#readme
+    about: Comience aquí para ver el contexto del proyecto y notas de setup.
+  - name: Flujo de contribución
+    url: https://github.com/Daavid-Anaya/team-43-explorador-urbano/blob/main/CONTRIBUTING.md
+    about: Lea las expectativas de SDD, GitHub Flow, revisión y PR antes de abrir trabajo.
