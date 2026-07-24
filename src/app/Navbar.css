@@ -1,0 +1,89 @@
+.navbar {
+  --navbar-fg: #ffffff;
+  background-color: #0f766e;
+  color: var(--navbar-fg);
+}
+
+.navbar__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+}
+
+.navbar__title {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.navbar__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: transparent;
+  border: none;
+  color: var(--navbar-fg);
+  cursor: pointer;
+}
+
+.navbar__toggle-icon,
+.navbar__toggle-icon::before,
+.navbar__toggle-icon::after {
+  content: "";
+  display: block;
+  width: 1.5rem;
+  height: 2px;
+  background-color: currentColor;
+}
+
+.navbar__toggle-icon::before {
+  margin-bottom: 5px;
+}
+
+.navbar__toggle-icon::after {
+  margin-top: 5px;
+}
+
+.navbar__menu {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.navbar__menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.navbar__login-item {
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--navbar-fg);
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.navbar__login-item:hover,
+.navbar__login-item:focus-visible {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Desktop / wider viewports: keep the layout mobile-first but avoid an
+   overly cramped menu once there is horizontal room to spare. */
+@media (min-width: 640px) {
+  .navbar__menu-list {
+    flex-direction: row;
+  }
+
+  .navbar__login-item {
+    width: auto;
+  }
+}

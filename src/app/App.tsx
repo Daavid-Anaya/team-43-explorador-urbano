@@ -1,29 +1,34 @@
 import { useOnlineStatus } from "../shared/pwa/useOnlineStatus";
 import { useServiceWorkerUpdate } from "../shared/pwa/useServiceWorkerUpdate";
+import { Navbar } from "./Navbar";
 
 export function App() {
   const isOnline = useOnlineStatus();
   const { updateAvailable, applyUpdate } = useServiceWorkerUpdate();
 
   return (
-    <main>
-      <h1>Explorador Urbano</h1>
-      <p>Base de aplicación lista para construir el MVP.</p>
+    <>
+      <Navbar />
 
-      <p role="status">
-        {isOnline
-          ? "En línea"
-          : "Sin conexión — mostrando contenido guardado. Completar un desafío requiere conexión."}
-      </p>
+      <main>
+        <h1>Explorador Urbano</h1>
+        <p>Base de aplicación lista para construir el MVP.</p>
 
-      {updateAvailable && (
-        <div role="alert">
-          <p>Nueva versión disponible</p>
-          <button type="button" onClick={() => void applyUpdate()}>
-            Actualizar
-          </button>
-        </div>
-      )}
-    </main>
+        <p role="status">
+          {isOnline
+            ? "En línea"
+            : "Sin conexión — mostrando contenido guardado. Completar un desafío requiere conexión."}
+        </p>
+
+        {updateAvailable && (
+          <div role="alert">
+            <p>Nueva versión disponible</p>
+            <button type="button" onClick={() => void applyUpdate()}>
+              Actualizar
+            </button>
+          </div>
+        )}
+      </main>
+    </>
   );
 }
