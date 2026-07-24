@@ -1,0 +1,122 @@
+[
+  {
+    "title": "Palacio de Bellas Artes",
+    "description": "Recorre el recinto cultural más emblemático de la Ciudad de México y observa su cúpula de mosaicos.",
+    "category": "Art",
+    "latitude": 19.4352,
+    "longitude": -99.1412,
+    "radiusMeters": 80,
+    "points": 100,
+    "photoPrompt": "Foto de la fachada o la cúpula del Palacio de Bellas Artes",
+    "difficulty": "easy",
+    "estimatedMinutes": 20
+  },
+  {
+    "title": "Museo Frida Kahlo (Casa Azul)",
+    "description": "Visita la casa natal de Frida Kahlo en Coyoacán, hoy convertida en museo.",
+    "category": "Art",
+    "latitude": 19.3551,
+    "longitude": -99.1624,
+    "radiusMeters": 80,
+    "points": 120,
+    "photoPrompt": "Foto de la fachada azul de la Casa Azul",
+    "difficulty": "medium",
+    "estimatedMinutes": 30
+  },
+  {
+    "title": "Templo Mayor",
+    "description": "Explora las ruinas del principal templo de Tenochtitlan, en el corazón del Centro Histórico.",
+    "category": "History",
+    "latitude": 19.4342,
+    "longitude": -99.1322,
+    "radiusMeters": 80,
+    "points": 110,
+    "photoPrompt": "Foto de las ruinas del Templo Mayor",
+    "difficulty": "easy",
+    "estimatedMinutes": 25
+  },
+  {
+    "title": "Zócalo y Palacio Nacional",
+    "description": "Recorre la Plaza de la Constitución y observa la fachada del Palacio Nacional.",
+    "category": "History",
+    "latitude": 19.4326,
+    "longitude": -99.1332,
+    "radiusMeters": 80,
+    "points": 90,
+    "photoPrompt": "Foto del Zócalo con el Palacio Nacional de fondo",
+    "difficulty": "easy",
+    "estimatedMinutes": 15
+  },
+  {
+    "title": "Bosque de Chapultepec (Primera Sección)",
+    "description": "Camina por el pulmón verde más grande de la ciudad y encuentra el Lago Mayor.",
+    "category": "Nature",
+    "latitude": 19.4204,
+    "longitude": -99.1813,
+    "radiusMeters": 100,
+    "points": 90,
+    "photoPrompt": "Foto del Lago Mayor o de un área verde del bosque",
+    "difficulty": "easy",
+    "estimatedMinutes": 30
+  },
+  {
+    "title": "Jardín Botánico UNAM",
+    "description": "Descubre especies vegetales de distintos ecosistemas de México en Ciudad Universitaria.",
+    "category": "Nature",
+    "latitude": 19.3252,
+    "longitude": -99.1789,
+    "radiusMeters": 80,
+    "points": 100,
+    "photoPrompt": "Foto de un cactus o planta destacada del jardín",
+    "difficulty": "medium",
+    "estimatedMinutes": 25
+  },
+  {
+    "title": "Ángel de la Independencia",
+    "description": "Visita el monumento conmemorativo de la independencia de México sobre Paseo de la Reforma.",
+    "category": "Landmark",
+    "latitude": 19.4270,
+    "longitude": -99.1677,
+    "radiusMeters": 80,
+    "points": 90,
+    "photoPrompt": "Foto de la columna del Ángel de la Independencia",
+    "difficulty": "easy",
+    "estimatedMinutes": 15
+  },
+  {
+    "title": "Torre Latinoamericana",
+    "description": "Sube al mirador de uno de los primeros rascacielos de América Latina.",
+    "category": "Landmark",
+    "latitude": 19.4335,
+    "longitude": -99.1408,
+    "radiusMeters": 80,
+    "points": 110,
+    "photoPrompt": "Foto de la Torre Latinoamericana desde la calle o desde el mirador",
+    "difficulty": "medium",
+    "estimatedMinutes": 40
+  },
+  {
+    "title": "Mercado de San Juan",
+    "description": "Recorre uno de los mercados gourmet menos conocidos por los turistas, famoso por sus ingredientes exóticos.",
+    "category": "Hidden Gem",
+    "latitude": 19.4304,
+    "longitude": -99.1442,
+    "radiusMeters": 80,
+    "points": 130,
+    "photoPrompt": "Foto de algún puesto del Mercado de San Juan",
+    "difficulty": "medium",
+    "estimatedMinutes": 20
+  },
+  {
+    "title": "Panteón de San Fernando",
+    "description": "Visita el cementerio histórico donde descansan varios próceres mexicanos, poco visitado por turistas.",
+    "category": "Hidden Gem",
+    "latitude": 19.4425,
+    "longitude": -99.1467,
+    "radiusMeters": 80,
+    "points": 130,
+    "photoPrompt": "Foto de la entrada o una tumba histórica del panteón",
+    "difficulty": "hard",
+    "estimatedMinutes": 25
+  }
+]

@@ -9,6 +9,7 @@
     "lint": "oxlint src vite.config.ts",
     "test": "vitest run",
     "test:supabase-contract": "vitest run src/lib/supabase/migration-contract.test.ts",
+    "seed:check": "vitest run supabase/seed/challenges.seed-check.test.ts",
     "typecheck": "tsc -b",
     "preview": "vite preview"
   },
