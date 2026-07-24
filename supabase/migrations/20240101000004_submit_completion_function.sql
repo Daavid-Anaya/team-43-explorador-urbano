@@ -77,9 +77,15 @@ BEGIN
     RAISE EXCEPTION 'Invalid evidence path format';
   END IF;
 
-  -- TODO: Validate evidence file exists in storage.objects
-  -- This validation is deferred to avoid blocking the MVP
-  -- Future enhancement: check storage.objects for file existence
+  -- Validate evidence file exists in storage
+  IF NOT EXISTS (
+    SELECT 1 FROM storage.objects
+    WHERE bucket_id = 'challenge-evidence'
+    AND name = p_evidence_path
+    AND owner = v_user_id
+  ) THEN
+    RAISE EXCEPTION 'Evidence file not found in storage or not owned by user';
+  END IF;
 
   -- Insert completion record
   INSERT INTO public.completions (

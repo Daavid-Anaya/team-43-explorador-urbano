@@ -87,8 +87,8 @@ RLS policies implemented in `supabase/migrations/20240101000002_rls_policies.sql
 - `submit_completion` function prepared in `20240101000004_submit_completion_function.sql`
 - **SECURITY HARDENED**: Function uses `SECURITY DEFINER` with fixed `search_path = public, pg_temp`
 - **BUG FIXED**: Badge awarding logic corrected - uses exception handling instead of RETURNING into wrong type
-- **DOCUMENTED**: Evidence file existence validation deferred with TODO comment
-- Function validates auth, location, accuracy, evidence path format
+- **EVIDENCE VALIDATION IMPLEMENTED**: Function now validates evidence file exists in `storage.objects` and is owned by user
+- Function validates auth, location, accuracy, evidence path format, and evidence file existence
 - Function is READY but not yet integrated in UI (task 2.2-2.4 will wire it up)
 - Validation boundary defined, but completion flow UX is deferred
 
@@ -96,9 +96,9 @@ RLS policies implemented in `supabase/migrations/20240101000002_rls_policies.sql
 1. Fixed `search_path` to prevent schema injection attacks
 2. All table references use explicit `public.` schema
 3. Badge insertion uses exception handling for unique violations
-4. Evidence validation notes deferred storage.objects check
+4. Evidence validation checks `storage.objects` for file existence and ownership
 
-**Status**: ✅ Complete (validation prepared, UX deferred as planned, security hardened)
+**Status**: ✅ Complete (validation prepared with real evidence checking, UX deferred as planned, security hardened)
 
 ## Scope Verification
 
