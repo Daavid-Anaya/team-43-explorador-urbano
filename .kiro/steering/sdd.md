@@ -11,6 +11,11 @@ Los agentes de Kiro deben leer:
 - `openspec/changes/urban-explorer-mvp/tasks.md`.
 - Los `openspec/changes/urban-explorer-mvp/specs/*/spec.md` relevantes para el issue.
 
+## Kiro como apoyo, no como fuente de verdad
+
+- Kiro puede usarse durante la exploración para detectar ambigüedades y forzar la clarificación de requisitos antes de implementar.
+- El resultado de esa clarificación se vuelca a `openspec/`, que sigue siendo el único lugar canónico. No se crea `.kiro/specs/` para evitar duplicación y desincronización.
+
 ## Reglas para agentes
 
 - No inventar alcance fuera de OpenSpec.
