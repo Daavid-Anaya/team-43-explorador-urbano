@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 /**
- * Tracks browser connectivity via `navigator.onLine` plus the `online`/
- * `offline` window events, so the UI can distinguish browsable cached
- * content from actions that require a network connection.
+ * Rastrea la conectividad del navegador vía `navigator.onLine` más los
+ * eventos `online`/`offline` de window, para que la UI pueda distinguir
+ * contenido cacheado navegable de acciones que requieren conexión de red.
  */
 export function useOnlineStatus(): boolean {
   const [isOnline, setIsOnline] = useState(() => navigator.onLine);

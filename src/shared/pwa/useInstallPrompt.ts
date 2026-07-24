@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 
 /**
- * Non-standard event fired by supporting browsers before showing the native
- * install prompt. Not yet part of `lib.dom.d.ts`, so it's declared locally.
+ * Evento no estándar disparado por navegadores compatibles antes de mostrar
+ * el prompt de instalación nativo. Todavía no forma parte de `lib.dom.d.ts`,
+ * por eso se declara localmente.
  */
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -10,17 +11,18 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export interface InstallPromptState {
-  /** True once a supporting browser fired `beforeinstallprompt`. */
+  /** True una vez que un navegador compatible disparó `beforeinstallprompt`. */
   canInstall: boolean;
-  /** Triggers the deferred native install flow. No-op if unsupported. */
+  /** Dispara el flujo de instalación nativo diferido. No hace nada si no está soportado. */
   promptInstall: () => Promise<void>;
 }
 
 /**
- * Captures `beforeinstallprompt` so the app can render a custom install
- * call-to-action instead of relying on the browser's own mini-infobar.
- * Never blocks core usage: browsers that never fire the event simply keep
- * `canInstall` false forever, per spec (Custom Install Prompt requirement).
+ * Captura `beforeinstallprompt` para que la app pueda renderizar un
+ * call-to-action de instalación personalizado en lugar de depender de la
+ * mini-infobar propia del navegador. Nunca bloquea el uso central:
+ * los navegadores que nunca disparan el evento simplemente mantienen
+ * `canInstall` en false para siempre, según la spec (requisito de Custom Install Prompt).
  */
 export function useInstallPrompt(): InstallPromptState {
   const [deferredPrompt, setDeferredPrompt] =

@@ -27,7 +27,7 @@ describe("App", () => {
     });
   });
 
-  it("renders the application shell", () => {
+  it("renderiza el shell de la aplicación", () => {
     render(<App />);
 
     expect(
@@ -35,7 +35,7 @@ describe("App", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows an online indicator when connected", () => {
+  it("muestra un indicador de en línea cuando hay conexión", () => {
     mockUseOnlineStatus.mockReturnValue(true);
 
     render(<App />);
@@ -43,7 +43,7 @@ describe("App", () => {
     expect(screen.getByRole("status")).toHaveTextContent("En línea");
   });
 
-  it("shows an offline indicator when disconnected", () => {
+  it("muestra un indicador de sin conexión cuando no hay conexión", () => {
     mockUseOnlineStatus.mockReturnValue(false);
 
     render(<App />);
@@ -51,7 +51,7 @@ describe("App", () => {
     expect(screen.getByRole("status")).toHaveTextContent("Sin conexión");
   });
 
-  it("hides the update banner when no update is available", () => {
+  it("oculta el banner de actualización cuando no hay actualización disponible", () => {
     mockUseServiceWorkerUpdate.mockReturnValue({
       updateAvailable: false,
       offlineReady: false,
@@ -64,7 +64,7 @@ describe("App", () => {
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
   });
 
-  it("shows an update banner and applies the update on click", async () => {
+  it("muestra un banner de actualización y aplica la actualización al hacer clic", async () => {
     const applyUpdate = vi.fn().mockResolvedValue(undefined);
     mockUseServiceWorkerUpdate.mockReturnValue({
       updateAvailable: true,

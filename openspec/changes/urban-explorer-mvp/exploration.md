@@ -1,44 +1,44 @@
-## Exploration: urban-explorer-mvp
+## Exploración: urban-explorer-mvp
 
-> Later SDD phases narrowed the accepted scope. Use `proposal.md`, `design.md`,
-> `specs/*/spec.md`, and `tasks.md` as the current source of truth.
+> Fases SDD posteriores acotaron el alcance aceptado. Usar `proposal.md`, `design.md`,
+> `specs/*/spec.md`, y `tasks.md` como la fuente de verdad actual.
 
-### Current State
-The repository was in bootstrap state during exploration: only `.atl/` metadata and
-initialized `openspec/` artifacts, with no application source, deployment code, package
-manifest, or test runner yet.
+### Estado Actual
+El repositorio estaba en estado de bootstrap durante la exploración: solo metadata de `.atl/` y
+artefactos inicializados de `openspec/`, sin código fuente de aplicación, código de despliegue, manifest
+de paquetes, ni test runner todavía.
 
-The product goal is a hackathon-ready web app that feels original, is usable by real end
-users, and can be published quickly without overengineering. The best MVP target is a
-city exploration loop: discover nearby places, complete a walking challenge, prove
-arrival, earn progression, and share the result.
+El objetivo del producto es una aplicación web lista para hackathon que se sienta original, sea usable por usuarios
+finales reales, y pueda publicarse rápido sin sobre-ingeniería. El mejor objetivo de MVP es un
+loop de exploración de ciudad: descubrir lugares cercanos, completar un desafío caminando, probar
+la llegada, ganar progresión y compartir el resultado.
 
-### Approaches
-1. **Browser-heavy static MVP** — Static frontend with local-only state, browser APIs, and minimal or no backend.
-   - Pros: Fastest to demo, cheapest to host, strong hackathon novelty through device capabilities.
-   - Cons: Weak persistence, limited anti-cheat controls, poor multi-device continuity.
-   - Effort: Low
+### Enfoques
+1. **MVP estático centrado en el navegador** — Frontend estático con estado solo local, APIs del navegador, y backend mínimo o nulo.
+   - Pros: Más rápido de demostrar, más barato de hostear, fuerte novedad de hackathon a través de capacidades del dispositivo.
+   - Contras: Persistencia débil, controles de anti-cheat limitados, mala continuidad multi-dispositivo.
+   - Esfuerzo: Bajo
 
-2. **Lightweight managed-platform MVP** — Web frontend plus small managed backend for challenge state, evidence, progress, and identity.
-   - Pros: Best balance for a publishable product, supports persistence and progression, fast enough for a 3-person team.
-   - Cons: Adds API/data modeling work, proof validation stays trust-based unless kept simple, auth can consume time if included too early.
-   - Effort: Medium
+2. **MVP de plataforma administrada liviana** — Frontend web más un backend administrado pequeño para estado de desafíos, evidencia, progreso e identidad.
+   - Pros: Mejor balance para un producto publicable, soporta persistencia y progresión, suficientemente rápido para un equipo de 3 personas.
+   - Contras: Agrega trabajo de modelado de API/datos, la validación de prueba permanece basada en confianza a menos que se mantenga simple, la auth puede consumir tiempo si se incluye demasiado temprano.
+   - Esfuerzo: Medio
 
-3. **Full social platform MVP** — Real-time competition, complex personalization, social feeds, moderation, and rich media evidence.
-   - Pros: Highest long-term product upside.
-   - Cons: Too large for hackathon scope, high review-budget risk, dilutes the core walking challenge loop.
-   - Effort: High
+3. **MVP de plataforma social completa** — Competencia en tiempo real, personalización compleja, feeds sociales, moderación y evidencia multimedia rica.
+   - Pros: Mayor potencial de producto a largo plazo.
+   - Contras: Demasiado grande para el alcance de hackathon, alto riesgo de presupuesto de review, diluye el loop central de desafío caminando.
+   - Esfuerzo: Alto
 
-### Recommendation
-Choose **Lightweight managed-platform MVP** with a ruthless boundary around the core loop:
-geolocation + photo evidence, a one-city curated catalog, Supabase for Auth/Postgres/RLS/
-Storage and the completion validation boundary, and Vercel for hosting.
+### Recomendación
+Elegir **MVP de plataforma administrada liviana** con un límite implacable alrededor del loop central:
+geolocalización + evidencia fotográfica, un catálogo curado de una ciudad, Supabase para Auth/Postgres/RLS/
+Storage y el límite de validación de completado, y Vercel para hosting.
 
-### Risks
-- Browser permission denial or poor GPS accuracy can break the completion loop without a graceful fallback.
-- Trying to ship auth, social graph, offline sync, and dual proof modes together will blow up hackathon scope.
-- Map/geocoding providers can introduce quota or pricing surprises if chosen late.
+### Riesgos
+- La denegación de permisos del navegador o la baja precisión de GPS pueden romper el loop de completado sin un fallback elegante.
+- Intentar enviar auth, grafo social, sincronización offline y modos duales de prueba juntos volará el alcance del hackathon.
+- Los proveedores de mapas/geocodificación pueden introducir sorpresas de cuota o precio si se elige tarde.
 
-### Ready for Proposal
-Yes — provided the next phase locks the exact city, seed dataset, and Supabase/Vercel
-environment ownership before implementation.
+### Listo para Propuesta
+Sí — siempre que la siguiente fase fije la ciudad exacta, el dataset semilla, y la propiedad del
+entorno Supabase/Vercel antes de la implementación.

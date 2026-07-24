@@ -1,42 +1,42 @@
-# Challenge Discovery Specification
+# Especificación de Descubrimiento de Desafíos
 
-## Purpose
+## Propósito
 
-Define nearby challenge discovery for a single curated city with an initial manually curated catalog.
+Definir el descubrimiento de desafíos cercanos para una sola ciudad curada con un catálogo inicial curado manualmente.
 
-## Requirements
+## Requisitos
 
-### Requirement: Distance-Sorted Nearby Challenges
+### Requisito: Desafíos Cercanos Ordenados por Distancia
 
-The system MUST present curated challenges for the active city as a list sorted by nearest distance when usable location data is available, SHALL show each challenge's basic progress state, and MUST expose a challenge detail view before completion.
+El sistema MUST presentar los desafíos curados de la ciudad activa como una lista ordenada por distancia más cercana cuando haya datos de ubicación usables disponibles, SHALL mostrar el estado básico de progreso de cada desafío, y MUST exponer una vista de detalle del desafío antes del completado.
 
-The initial MVP catalog MUST contain 8-12 manually curated challenges for one city. Each challenge MUST include `title`, `description`, `category`, `latitude`, `longitude`, `radiusMeters`, `points`, `photoPrompt`, `difficulty`, and `estimatedMinutes`. The supported MVP categories MUST be Art, History, Nature, Landmark, and Hidden Gem.
+El catálogo inicial del MVP MUST contener 8-12 desafíos curados manualmente para una ciudad. Cada desafío MUST incluir `title`, `description`, `category`, `latitude`, `longitude`, `radiusMeters`, `points`, `photoPrompt`, `difficulty`, y `estimatedMinutes`. Las categorías soportadas del MVP MUST ser Art, History, Nature, Landmark, y Hidden Gem.
 
-#### Scenario: Nearby list uses current location
+#### Escenario: La lista cercana usa la ubicación actual
 
-- GIVEN an authenticated user who granted geolocation permission
-- WHEN the user opens the challenge list
-- THEN the system shows the one-city curated challenges ordered from smallest to largest distance
-- AND each item shows distance and whether the challenge is not started, in progress, or completed
+- GIVEN un usuario autenticado que otorgó permiso de geolocalización
+- WHEN el usuario abre la lista de desafíos
+- THEN el sistema muestra los desafíos curados de una sola ciudad ordenados de menor a mayor distancia
+- AND cada elemento muestra la distancia y si el desafío está sin iniciar, en progreso, o completado
 
-#### Scenario: Permission denied still allows browsing
+#### Escenario: El permiso denegado todavía permite navegar
 
-- GIVEN an authenticated user who denied geolocation permission
-- WHEN the user opens the challenge list
-- THEN the system still shows the curated one-city challenge catalog
-- AND the system explains that distance sorting and proximity validation are limited without location access
+- GIVEN un usuario autenticado que denegó el permiso de geolocalización
+- WHEN el usuario abre la lista de desafíos
+- THEN el sistema todavía muestra el catálogo curado de desafíos de una sola ciudad
+- AND el sistema explica que el ordenamiento por distancia y la validación de proximidad están limitados sin acceso a ubicación
 
-#### Scenario: User opens a challenge detail view
+#### Escenario: El usuario abre una vista de detalle de desafío
 
-- GIVEN an authenticated user viewing the curated challenge list
-- WHEN the user selects a challenge
-- THEN the system shows challenge details needed to attempt completion
-- AND the view includes current completion state for that user
+- GIVEN un usuario autenticado que ve la lista curada de desafíos
+- WHEN el usuario selecciona un desafío
+- THEN el sistema muestra los detalles del desafío necesarios para intentar el completado
+- AND la vista incluye el estado de completado actual para ese usuario
 
-#### Scenario: Challenge catalog uses the accepted MVP contract
+#### Escenario: El catálogo de desafíos usa el contrato MVP aceptado
 
-- GIVEN the initial challenge dataset is loaded
-- WHEN the system renders the discovery list or detail view
-- THEN every challenge includes the required challenge fields
-- AND every challenge category is one of Art, History, Nature, Landmark, or Hidden Gem
-- AND the initial dataset contains no fewer than 8 and no more than 12 challenges
+- GIVEN el dataset inicial de desafíos está cargado
+- WHEN el sistema renderiza la lista de descubrimiento o la vista de detalle
+- THEN cada desafío incluye los campos de desafío requeridos
+- AND cada categoría de desafío es una de Art, History, Nature, Landmark, o Hidden Gem
+- AND el dataset inicial contiene no menos de 8 ni más de 12 desafíos

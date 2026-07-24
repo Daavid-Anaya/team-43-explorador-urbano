@@ -1,59 +1,59 @@
-# Progression Sharing Specification
+# Especificación de Progresión y Compartir
 
-## Purpose
+## Propósito
 
-Define MVP progression, route progress visibility, and achievement sharing.
+Definir la progresión del MVP, la visibilidad del progreso de ruta, y el compartir de logros.
 
-## Requirements
+## Requisitos
 
-### Requirement: Persisted Progression Rewards
+### Requisito: Recompensas de Progresión Persistidas
 
-The system MUST persist completed challenges, points, earned badges, current level, and challenge progress for each authenticated user.
+El sistema MUST persistir los desafíos completados, puntos, insignias ganadas, nivel actual, y progreso de desafíos para cada usuario autenticado.
 
-The MVP level thresholds MUST be Explorer I at 0 points, Explorer II at 300 points, Explorer III at 700 points, City Ranger at 1200 points, and Urban Legend at 2000 points.
+Los umbrales de nivel del MVP MUST ser Explorer I a 0 puntos, Explorer II a 300 puntos, Explorer III a 700 puntos, City Ranger a 1200 puntos, y Urban Legend a 2000 puntos.
 
-The MVP badge rules MUST include First Steps for completing 1 challenge, Weekend Walker for completing 3 challenges, Art Hunter for completing 2 Art challenges, History Seeker for completing 2 History challenges, Route Finisher for completing 5 challenges, and Early Explorer for completing the first challenge of the day.
+Las reglas de insignias del MVP MUST incluir First Steps por completar 1 desafío, Weekend Walker por completar 3 desafíos, Art Hunter por completar 2 desafíos de Art, History Seeker por completar 2 desafíos de History, Route Finisher por completar 5 desafíos, y Early Explorer por completar el primer desafío del día.
 
-#### Scenario: Completion updates progression
+#### Escenario: El completado actualiza la progresión
 
-- GIVEN an authenticated user with an accepted challenge completion
-- WHEN the completion is recorded
-- THEN the system updates the user's points, badge eligibility, level, and progress history
-- AND the user can later view the updated progression state
+- GIVEN un usuario autenticado con un completado de desafío aceptado
+- WHEN se registra el completado
+- THEN el sistema actualiza los puntos, elegibilidad de insignias, nivel, e historial de progreso del usuario
+- AND el usuario puede ver más tarde el estado de progresión actualizado
 
-#### Scenario: User crosses a level threshold
+#### Escenario: El usuario cruza un umbral de nivel
 
-- GIVEN an authenticated user has 290 points
-- WHEN an accepted completion awards at least 10 points
-- THEN the user's level becomes Explorer II
-- AND the updated progression state includes the new total points and level
+- GIVEN un usuario autenticado tiene 290 puntos
+- WHEN un completado aceptado otorga al menos 10 puntos
+- THEN el nivel del usuario se convierte en Explorer II
+- AND el estado de progresión actualizado incluye el nuevo total de puntos y el nivel
 
-#### Scenario: User earns an MVP badge
+#### Escenario: El usuario gana una insignia del MVP
 
-- GIVEN an authenticated user has completed one Art challenge
-- WHEN the user completes a second Art challenge
-- THEN the system awards the Art Hunter badge
-- AND the badge remains associated with that user profile
+- GIVEN un usuario autenticado ha completado un desafío de Art
+- WHEN el usuario completa un segundo desafío de Art
+- THEN el sistema otorga la insignia Art Hunter
+- AND la insignia permanece asociada a ese perfil de usuario
 
-#### Scenario: User resumes an existing account
+#### Escenario: El usuario reanuda una cuenta existente
 
-- GIVEN an authenticated user who previously completed one or more challenges
-- WHEN the user reopens the application
-- THEN the system restores prior completions and current progress state
-- AND previously completed challenges are not offered as newly completable
+- GIVEN un usuario autenticado que previamente completó uno o más desafíos
+- WHEN el usuario reabre la aplicación
+- THEN el sistema restaura los completados previos y el estado de progreso actual
+- AND los desafíos previamente completados no se ofrecen como nuevamente completables
 
-### Requirement: Share Achievements
+### Requisito: Compartir Logros
 
-The system SHOULD let a user share a completed achievement using native browser or device sharing when supported, and MUST provide a fallback shareable summary when native sharing is unavailable.
+El sistema SHOULD permitir a un usuario compartir un logro completado usando el compartir nativo del navegador o dispositivo cuando esté soportado, y MUST proveer un resumen compartible de respaldo cuando el compartir nativo no esté disponible.
 
-#### Scenario: Native sharing is supported
+#### Escenario: El compartir nativo está soportado
 
-- GIVEN a user viewing a completed achievement on a device with native sharing support
-- WHEN the user chooses to share it
-- THEN the system opens the native share flow with achievement details
+- GIVEN un usuario viendo un logro completado en un dispositivo con soporte de compartir nativo
+- WHEN el usuario elige compartirlo
+- THEN el sistema abre el flujo de compartir nativo con los detalles del logro
 
-#### Scenario: Native sharing is unavailable
+#### Escenario: El compartir nativo no está disponible
 
-- GIVEN a user viewing a completed achievement on a device without native sharing support
-- WHEN the user chooses to share it
-- THEN the system provides a fallback shareable summary or copyable content
+- GIVEN un usuario viendo un logro completado en un dispositivo sin soporte de compartir nativo
+- WHEN el usuario elige compartirlo
+- THEN el sistema provee un resumen compartible de respaldo o contenido copiable

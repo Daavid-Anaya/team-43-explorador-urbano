@@ -23,7 +23,7 @@ describe("useOnlineStatus", () => {
     });
   }
 
-  it("reflects navigator.onLine as the initial value", () => {
+  it("refleja navigator.onLine como el valor inicial", () => {
     setNavigatorOnLine(true);
 
     const { result } = renderHook(() => useOnlineStatus());
@@ -31,7 +31,7 @@ describe("useOnlineStatus", () => {
     expect(result.current).toBe(true);
   });
 
-  it("switches to false when the offline event fires", () => {
+  it("cambia a false cuando se dispara el evento offline", () => {
     setNavigatorOnLine(true);
     const { result } = renderHook(() => useOnlineStatus());
 
@@ -43,7 +43,7 @@ describe("useOnlineStatus", () => {
     expect(result.current).toBe(false);
   });
 
-  it("switches back to true when the online event fires", () => {
+  it("vuelve a true cuando se dispara el evento online", () => {
     setNavigatorOnLine(false);
     const { result } = renderHook(() => useOnlineStatus());
 

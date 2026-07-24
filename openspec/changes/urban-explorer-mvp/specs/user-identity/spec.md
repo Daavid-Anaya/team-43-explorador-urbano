@@ -1,25 +1,25 @@
-# User Identity Specification
+# Especificación de Identidad de Usuario
 
-## Purpose
+## Propósito
 
-Define lightweight sign-in and user-owned progress for the MVP.
+Definir el inicio de sesión liviano y el progreso propio del usuario para el MVP.
 
-## Requirements
+## Requisitos
 
-### Requirement: Simple Authenticated Identity
+### Requisito: Identidad Autenticada Simple
 
-The system MUST let a person create or resume a lightweight authenticated identity before storing progress, and MUST associate profile, points, badges, and completions with that identity.
+El sistema MUST permitir que una persona cree o reanude una identidad autenticada liviana antes de almacenar progreso, y MUST asociar perfil, puntos, insignias, y completados con esa identidad.
 
-#### Scenario: First login creates profile
+#### Escenario: El primer login crea un perfil
 
-- GIVEN a visitor without an existing session
-- WHEN the visitor completes the MVP login flow
-- THEN the system creates or retrieves a user profile and starts an authenticated session
-- AND subsequent progress is owned by that user identity
+- GIVEN un visitante sin una sesión existente
+- WHEN el visitante completa el flujo de login del MVP
+- THEN el sistema crea o recupera un perfil de usuario e inicia una sesión autenticada
+- AND el progreso subsecuente es propiedad de esa identidad de usuario
 
-#### Scenario: Anonymous user tries to persist progress
+#### Escenario: Un usuario anónimo intenta persistir progreso
 
-- GIVEN a visitor who is not authenticated
-- WHEN the visitor attempts to submit challenge completion or open saved progress
-- THEN the system blocks persistence until login is completed
-- AND the visitor is shown a clear sign-in requirement
+- GIVEN un visitante que no está autenticado
+- WHEN el visitante intenta enviar un completado de desafío o abrir progreso guardado
+- THEN el sistema bloquea la persistencia hasta que se complete el login
+- AND se le muestra al visitante un requerimiento claro de inicio de sesión

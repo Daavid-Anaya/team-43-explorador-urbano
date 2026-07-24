@@ -1,120 +1,120 @@
-# PWA Shell Specification
+# Especificación del Shell PWA
 
-## Purpose
+## Propósito
 
-Define an installable Progressive Web App shell with read-only offline support for the curated challenge catalog. This spec does not change the server-side completion boundary: challenge completion always requires network access.
+Definir un shell de Progressive Web App instalable con soporte offline de solo lectura para el catálogo curado de desafíos. Esta spec no cambia el límite de completado server-side: completar un desafío siempre requiere acceso a red.
 
-## Requirements
+## Requisitos
 
-### Requirement: Installable Web App Manifest
+### Requisito: Web App Manifest Instalable
 
-The system MUST ship a Web App Manifest declaring `name`, `short_name`, `start_url`, `display: standalone`, `orientation`, `theme_color`, `background_color`, and icons at 192x192 and 512x512 including a maskable icon variant.
+El sistema MUST distribuir un Web App Manifest declarando `name`, `short_name`, `start_url`, `display: standalone`, `orientation`, `theme_color`, `background_color`, y iconos en 192x192 y 512x512 incluyendo una variante de icono maskable.
 
-#### Scenario: User installs the app
+#### Escenario: El usuario instala la app
 
-- GIVEN a user opens the deployed app in a supporting browser
-- WHEN the browser evaluates installability criteria against the manifest and service worker
-- THEN the app qualifies as installable
-- AND the installed app launches standalone with the configured theme and icons
+- GIVEN un usuario abre la app desplegada en un navegador compatible
+- WHEN el navegador evalúa los criterios de instalabilidad contra el manifest y el service worker
+- THEN la app califica como instalable
+- AND la app instalada se lanza en modo standalone con el theme e iconos configurados
 
-#### Scenario: iOS and Android splash screens render on launch
+#### Escenario: Las pantallas de splash de iOS y Android se renderizan al lanzar
 
-- GIVEN a user installed the app on iOS or Android
-- WHEN the user launches the installed app
-- THEN the platform shows a splash screen derived from the manifest/meta configuration for that platform
-- AND the app shell loads without a blank-screen flash before the first paint
+- GIVEN un usuario instaló la app en iOS o Android
+- WHEN el usuario lanza la app instalada
+- THEN la plataforma muestra una pantalla de splash derivada de la configuración de manifest/meta para esa plataforma
+- AND el app shell carga sin un flash de pantalla blanca antes del primer pintado
 
-### Requirement: Custom Install Prompt
+### Requisito: Prompt de Instalación Personalizado
 
-The system SHOULD present a custom install prompt using the `beforeinstallprompt` event on supporting browsers, and MUST NOT block core app usage when the native prompt is unavailable or dismissed.
+El sistema SHOULD presentar un prompt de instalación personalizado usando el evento `beforeinstallprompt` en navegadores compatibles, y MUST NOT bloquear el uso central de la app cuando el prompt nativo no esté disponible o sea descartado.
 
-#### Scenario: User accepts the custom install prompt
+#### Escenario: El usuario acepta el prompt de instalación personalizado
 
-- GIVEN a supporting browser fires `beforeinstallprompt`
-- WHEN the user accepts the app's custom install call-to-action
-- THEN the system triggers the deferred native install flow
-- AND the custom prompt does not reappear after installation
+- GIVEN un navegador compatible dispara `beforeinstallprompt`
+- WHEN el usuario acepta el call-to-action de instalación personalizado de la app
+- THEN el sistema dispara el flujo de instalación nativo diferido
+- AND el prompt personalizado no reaparece después de la instalación
 
-#### Scenario: Install prompt is unsupported
+#### Escenario: El prompt de instalación no está soportado
 
-- GIVEN a browser that never fires `beforeinstallprompt`
-- WHEN the user browses the app
-- THEN the app remains fully usable online
-- AND no install call-to-action blocks navigation or challenge discovery
+- GIVEN un navegador que nunca dispara `beforeinstallprompt`
+- WHEN el usuario navega la app
+- THEN la app permanece completamente usable online
+- AND ningún call-to-action de instalación bloquea la navegación o el descubrimiento de desafíos
 
-### Requirement: Precached App Shell
+### Requisito: App Shell Precacheado
 
-The system MUST register a service worker that precaches the app shell (HTML entry, core JS/CSS bundles, and static icons) so the shell itself loads without network access after first successful load.
+El sistema MUST registrar un service worker que precachee el app shell (entrada HTML, bundles core de JS/CSS, e iconos estáticos) de forma que el shell mismo cargue sin acceso a red después de la primera carga exitosa.
 
-#### Scenario: App shell opens without network
+#### Escenario: El app shell abre sin red
 
-- GIVEN a user previously loaded the app once with network access and the service worker activated
-- WHEN the user opens the app with no network connection
-- THEN the app shell renders from the precache
-- AND core navigation (discovery list, detail view, progression view) is reachable
+- GIVEN un usuario previamente cargó la app una vez con acceso a red y el service worker se activó
+- WHEN el usuario abre la app sin conexión de red
+- THEN el app shell se renderiza desde el precache
+- AND la navegación central (lista de descubrimiento, vista de detalle, vista de progresión) es alcanzable
 
-### Requirement: Read-Only Runtime Caching of the Challenge Catalog
+### Requisito: Cacheo en Runtime de Solo Lectura del Catálogo de Desafíos
 
-The system MUST cache read-only challenge catalog responses (challenge list and challenge detail data) using a stale-while-revalidate strategy so previously viewed catalog data remains visible offline.
+El sistema MUST cachear las respuestas de solo lectura del catálogo de desafíos (lista de desafíos y datos de detalle de desafío) usando una estrategia stale-while-revalidate de forma que los datos del catálogo previamente vistos permanezcan visibles offline.
 
-The system MUST NOT cache authenticated write endpoints, the completion submission boundary (`submit_completion`), or any private Supabase Storage evidence URL. The service worker MUST NOT use the Background Sync API to queue offline completion attempts.
+El sistema MUST NOT cachear endpoints de escritura autenticados, el límite de envío de completado (`submit_completion`), ni ninguna URL privada de evidencia de Supabase Storage. El service worker MUST NOT usar la API de Background Sync para encolar intentos de completado offline.
 
-#### Scenario: Catalog is visible offline after a prior visit
+#### Escenario: El catálogo es visible offline después de una visita previa
 
-- GIVEN a user browsed the challenge catalog while online at least once
-- WHEN the user reopens the challenge list without network access
-- THEN the system shows the last cached catalog data
-- AND the system indicates the data may be stale until connectivity returns
+- GIVEN un usuario navegó el catálogo de desafíos online al menos una vez
+- WHEN el usuario reabre la lista de desafíos sin acceso a red
+- THEN el sistema muestra los datos del catálogo cacheados más recientes
+- AND el sistema indica que los datos pueden estar obsoletos hasta que retorne la conectividad
 
-#### Scenario: Completing a challenge is blocked offline
+#### Escenario: Completar un desafío está bloqueado offline
 
-- GIVEN a user without network access opens a challenge detail view
-- WHEN the user attempts to submit completion evidence
-- THEN the system blocks the submission before calling `submit_completion`
-- AND the user sees a clear message that completing a challenge requires an internet connection
-- AND the attempt is never queued or retried in the background
+- GIVEN un usuario sin acceso a red abre una vista de detalle de desafío
+- WHEN el usuario intenta enviar evidencia de completado
+- THEN el sistema bloquea el envío antes de llamar a `submit_completion`
+- AND el usuario ve un mensaje claro de que completar un desafío requiere conexión a internet
+- AND el intento nunca se encola ni se reintenta en segundo plano
 
-#### Scenario: Private evidence and auth routes are never cached
+#### Escenario: La evidencia privada y las rutas de auth nunca se cachean
 
-- GIVEN the service worker evaluates a fetch request
-- WHEN the request targets an authenticated Supabase Auth endpoint or a private Storage evidence URL
-- THEN the service worker does not serve or store a cached response for that request
-- AND the request always goes to the network
+- GIVEN el service worker evalúa una solicitud de fetch
+- WHEN la solicitud apunta a un endpoint autenticado de Supabase Auth o una URL privada de evidencia en Storage
+- THEN el service worker no sirve ni almacena una respuesta cacheada para esa solicitud
+- AND la solicitud siempre va a la red
 
-### Requirement: Offline State Indication
+### Requisito: Indicación de Estado Offline
 
-The system MUST show a clear offline indicator or dedicated offline state when the user has no network connection, distinguishing browsable cached content from actions that require connectivity.
+El sistema MUST mostrar un indicador claro de offline o un estado offline dedicado cuando el usuario no tenga conexión de red, distinguiendo el contenido navegable cacheado de las acciones que requieren conectividad.
 
-#### Scenario: User loses connectivity mid-session
+#### Escenario: El usuario pierde conectividad a mitad de sesión
 
-- GIVEN a user is actively using the installed app
-- WHEN the device loses network connectivity
-- THEN the system shows an offline indicator
-- AND read-only cached views remain reachable while write actions are visibly disabled or explained
+- GIVEN un usuario está usando activamente la app instalada
+- WHEN el dispositivo pierde conectividad de red
+- THEN el sistema muestra un indicador offline
+- AND las vistas de solo lectura cacheadas permanecen alcanzables mientras las acciones de escritura están visiblemente deshabilitadas o explicadas
 
-### Requirement: Service Worker Update Flow
+### Requisito: Flujo de Actualización del Service Worker
 
-The system MUST detect a new service worker version and prompt the user to update rather than silently applying a new version that could serve mismatched app-shell assets.
+El sistema MUST detectar una nueva versión de service worker y solicitar al usuario que actualice en lugar de aplicar silenciosamente una nueva versión que podría servir assets de app-shell desincronizados.
 
-#### Scenario: New version is available
+#### Escenario: Hay una nueva versión disponible
 
-- GIVEN a new service worker version has been deployed
-- WHEN the installed app detects the waiting new version
-- THEN the system shows an update-available prompt
-- AND accepting the prompt activates the new service worker and reloads the app shell
+- GIVEN se desplegó una nueva versión de service worker
+- WHEN la app instalada detecta la nueva versión en espera
+- THEN el sistema muestra un prompt de actualización disponible
+- AND aceptar el prompt activa el nuevo service worker y recarga el app shell
 
-### Requirement: Optional Share Target
+### Requisito: Share Target Opcional
 
-The system MAY register a Web Share Target so supported platforms can share content into the app, scoped to sharing a completed achievement summary; this MUST NOT be used to submit challenge completions or evidence.
+El sistema MAY registrar un Web Share Target de forma que las plataformas compatibles puedan compartir contenido hacia la app, acotado a compartir un resumen de logro completado; esto MUST NOT usarse para enviar completados de desafío o evidencia.
 
-#### Scenario: User shares into the app via Share Target
+#### Escenario: El usuario comparte hacia la app vía Share Target
 
-- GIVEN the app declared a `share_target` in the manifest on a supporting platform
-- WHEN the user shares text or a link into the installed app
-- THEN the system opens the achievement-sharing context with the shared content
-- AND the shared content never triggers a challenge completion submission
+- GIVEN la app declaró un `share_target` en el manifest en una plataforma compatible
+- WHEN el usuario comparte texto o un link hacia la app instalada
+- THEN el sistema abre el contexto de compartir logro con el contenido compartido
+- AND el contenido compartido nunca dispara un envío de completado de desafío
 
-## Non-Goals
+## No-Objetivos
 
-- No full offline-first write sync. Queuing challenge completions offline (via Background Sync API or otherwise) is explicitly out of scope and MUST NOT be implemented under this spec.
-- No offline caching of authenticated or private data (Supabase Auth responses, private Storage evidence, user profile writes).
+- Sin sincronización de escritura completa offline-first. Encolar completados de desafío offline (vía API de Background Sync o de otra forma) está explícitamente fuera de alcance y MUST NOT implementarse bajo esta spec.
+- Sin cacheo offline de datos autenticados o privados (respuestas de Supabase Auth, evidencia privada en Storage, escrituras de perfil de usuario).

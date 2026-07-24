@@ -1,20 +1,21 @@
 import { useRegisterSW } from "virtual:pwa-register/react";
 
 export interface ServiceWorkerUpdateState {
-  /** True once a new service worker is installed and waiting to activate. */
+  /** True una vez que un nuevo service worker está instalado y esperando activarse. */
   updateAvailable: boolean;
-  /** True once the current service worker finished precaching for offline use. */
+  /** True una vez que el service worker actual terminó de precachear para uso offline. */
   offlineReady: boolean;
-  /** Activates the waiting service worker and reloads to pick up new assets. */
+  /** Activa el service worker en espera y recarga para tomar los nuevos assets. */
   applyUpdate: () => Promise<void>;
-  /** Dismisses the "offline ready" notice without reloading. */
+  /** Descarta el aviso de "listo para offline" sin recargar. */
   dismissOfflineReady: () => void;
 }
 
 /**
- * Wraps `virtual:pwa-register/react` so the app can show a custom
- * "new version available" prompt instead of silently swapping the service
- * worker mid-session (registerType is 'prompt', not 'autoUpdate').
+ * Envuelve `virtual:pwa-register/react` para que la app pueda mostrar un
+ * prompt personalizado de "nueva versión disponible" en lugar de reemplazar
+ * silenciosamente el service worker a mitad de sesión (registerType es
+ * 'prompt', no 'autoUpdate').
  */
 export function useServiceWorkerUpdate(): ServiceWorkerUpdateState {
   const {

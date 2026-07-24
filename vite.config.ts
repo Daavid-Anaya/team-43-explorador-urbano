@@ -6,9 +6,10 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      // 'prompt' (not 'autoUpdate'): a new service worker waits until the user
-      // confirms the update prompt, so the app never silently swaps app-shell
-      // assets mid-session. See src/shared/pwa/useServiceWorkerUpdate.ts.
+      // 'prompt' (no 'autoUpdate'): un nuevo service worker espera hasta que el
+      // usuario confirme el prompt de actualización, así la app nunca
+      // reemplaza silenciosamente assets del app-shell a mitad de sesión.
+      // Ver src/shared/pwa/useServiceWorkerUpdate.ts.
       registerType: "prompt",
       includeAssets: [
         "favicon.png",
@@ -51,17 +52,18 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,svg,png,ico,webmanifest}"],
         runtimeCaching: [
           {
-            // Placeholder pattern for the future read-only challenge catalog
-            // endpoint (Supabase not wired up yet in this repo). Stale-while-
-            // revalidate lets a previously viewed catalog render instantly
-            // offline while refreshing it in the background when online.
+            // Patrón placeholder para el futuro endpoint de solo lectura del
+            // catálogo de desafíos (Supabase todavía no está cableado en este
+            // repo). Stale-while-revalidate permite que un catálogo previamente
+            // visto se renderice instantáneamente offline mientras se refresca
+            // en segundo plano cuando hay conexión.
             //
-            // NON-NEGOTIABLE: this pattern MUST stay scoped to read-only
-            // catalog reads. It must never match:
-            //   - Supabase Auth endpoints (e.g. /auth/v1/*)
-            //   - the completion write boundary (submit_completion / RPC calls)
-            //   - private Supabase Storage evidence URLs (e.g. /storage/v1/object/*)
-            // Those requests must always bypass the cache and hit the network.
+            // NO NEGOCIABLE: este patrón MUST mantenerse acotado a lecturas
+            // de solo lectura del catálogo. Nunca debe coincidir con:
+            //   - endpoints de Supabase Auth (ej. /auth/v1/*)
+            //   - el límite de escritura de completado (submit_completion / llamadas RPC)
+            //   - URLs privadas de evidencia de Supabase Storage (ej. /storage/v1/object/*)
+            // Esas solicitudes siempre deben saltarse el caché e ir a la red.
             urlPattern: /\/rest\/v1\/challenges(\?.*)?$/,
             handler: "StaleWhileRevalidate",
             options: {
