@@ -38,3 +38,21 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start Supabase local
+        run: supabase start
+
+      - name: Run Supabase security tests
+        run: |
+          echo "Running security tests..."
+          supabase db reset --db-url $(supabase status -o env | grep DATABASE_URL | cut -d'=' -f2-)
+          psql $(supabase status -o env | grep DATABASE_URL | cut -d'=' -f2-) -f supabase/tests/security.test.sql
+
+      - name: Stop Supabase
+        if: always()
+        run: supabase stop
