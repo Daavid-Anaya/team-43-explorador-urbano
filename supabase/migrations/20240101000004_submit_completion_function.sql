@@ -12,6 +12,7 @@ CREATE OR REPLACE FUNCTION submit_completion(
 RETURNS JSON
 LANGUAGE plpgsql
 SECURITY DEFINER
+SET search_path = public, pg_temp
 AS $$
 DECLARE
   v_user_id UUID;
@@ -21,8 +22,7 @@ DECLARE
   v_total_points INTEGER;
   v_completion_count INTEGER;
   v_new_badges TEXT[] := ARRAY[]::TEXT[];
-  v_has_first_completion BOOLEAN;
-  v_has_city_explorer BOOLEAN;
+  v_badge_inserted BOOLEAN;
   v_result JSON;
 BEGIN
   -- Validate user is authenticated
@@ -38,7 +38,7 @@ BEGIN
 
   -- Fetch challenge details
   SELECT * INTO v_challenge
-  FROM challenges
+  FROM public.challenges
   WHERE id = p_challenge_id AND active = true;
 
   IF NOT FOUND THEN
@@ -47,7 +47,7 @@ BEGIN
 
   -- Check for duplicate completion
   IF EXISTS (
-    SELECT 1 FROM completions
+    SELECT 1 FROM public.completions
     WHERE user_id = v_user_id AND challenge_id = p_challenge_id
   ) THEN
     RAISE EXCEPTION 'Challenge already completed';
@@ -77,8 +77,12 @@ BEGIN
     RAISE EXCEPTION 'Invalid evidence path format';
   END IF;
 
+  -- TODO: Validate evidence file exists in storage.objects
+  -- This validation is deferred to avoid blocking the MVP
+  -- Future enhancement: check storage.objects for file existence
+
   -- Insert completion record
-  INSERT INTO completions (
+  INSERT INTO public.completions (
     user_id,
     challenge_id,
     latitude,
@@ -99,47 +103,60 @@ BEGIN
 
   -- Calculate total points
   SELECT COALESCE(SUM(points_awarded), 0) INTO v_total_points
-  FROM completions
+  FROM public.completions
   WHERE user_id = v_user_id;
 
   -- Get completion count
   SELECT COUNT(*) INTO v_completion_count
-  FROM completions
+  FROM public.completions
   WHERE user_id = v_user_id;
 
   -- Award "First Completion" badge if this is the first
   IF v_completion_count = 1 THEN
-    INSERT INTO badges (user_id, badge_type)
-    VALUES (v_user_id, 'First Completion')
-    ON CONFLICT (user_id, badge_type) DO NOTHING
-    RETURNING badge_type INTO v_has_first_completion;
+    BEGIN
+      INSERT INTO public.badges (user_id, badge_type)
+      VALUES (v_user_id, 'First Completion');
+      v_badge_inserted := TRUE;
+    EXCEPTION
+      WHEN unique_violation THEN
+        v_badge_inserted := FALSE;
+    END;
     
-    IF v_has_first_completion IS NOT NULL THEN
+    IF v_badge_inserted THEN
       v_new_badges := array_append(v_new_badges, 'First Completion');
     END IF;
   END IF;
 
   -- Award "City Explorer" badge if user completed 5 challenges
   IF v_completion_count >= 5 THEN
-    INSERT INTO badges (user_id, badge_type)
-    VALUES (v_user_id, 'City Explorer')
-    ON CONFLICT (user_id, badge_type) DO NOTHING
-    RETURNING badge_type INTO v_has_city_explorer;
+    BEGIN
+      INSERT INTO public.badges (user_id, badge_type)
+      VALUES (v_user_id, 'City Explorer');
+      v_badge_inserted := TRUE;
+    EXCEPTION
+      WHEN unique_violation THEN
+        v_badge_inserted := FALSE;
+    END;
     
-    IF v_has_city_explorer IS NOT NULL THEN
+    IF v_badge_inserted THEN
       v_new_badges := array_append(v_new_badges, 'City Explorer');
     END IF;
   END IF;
 
   -- Award "Challenge Master" badge if user completed all challenges in the city
   IF v_completion_count >= (
-    SELECT COUNT(*) FROM challenges WHERE city = v_challenge.city AND active = true
+    SELECT COUNT(*) FROM public.challenges WHERE city = v_challenge.city AND active = true
   ) THEN
-    INSERT INTO badges (user_id, badge_type)
-    VALUES (v_user_id, 'Challenge Master')
-    ON CONFLICT (user_id, badge_type) DO NOTHING;
+    BEGIN
+      INSERT INTO public.badges (user_id, badge_type)
+      VALUES (v_user_id, 'Challenge Master');
+      v_badge_inserted := TRUE;
+    EXCEPTION
+      WHEN unique_violation THEN
+        v_badge_inserted := FALSE;
+    END;
     
-    IF NOT ('Challenge Master' = ANY(v_new_badges)) THEN
+    IF v_badge_inserted THEN
       v_new_badges := array_append(v_new_badges, 'Challenge Master');
     END IF;
   END IF;

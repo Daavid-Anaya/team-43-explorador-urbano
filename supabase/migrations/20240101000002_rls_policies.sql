@@ -41,12 +41,10 @@ CREATE POLICY "Users can read own completions"
   FOR SELECT
   USING (auth.uid() = user_id);
 
--- Users can insert their own completions (through submit_completion function only)
--- This policy is permissive but the function enforces validation
-CREATE POLICY "Users can insert own completions"
-  ON completions
-  FOR INSERT
-  WITH CHECK (auth.uid() = user_id);
+-- NO INSERT policy for completions
+-- Completions can ONLY be created through submit_completion function
+-- The function uses SECURITY DEFINER to bypass RLS
+-- Direct inserts from client are BLOCKED
 
 -- Users cannot update or delete completions
 -- No UPDATE or DELETE policies = operations blocked
@@ -58,11 +56,10 @@ CREATE POLICY "Users can read own badges"
   FOR SELECT
   USING (auth.uid() = user_id);
 
--- Users can insert their own badges (through submit_completion function only)
-CREATE POLICY "Users can insert own badges"
-  ON badges
-  FOR INSERT
-  WITH CHECK (auth.uid() = user_id);
+-- NO INSERT policy for badges
+-- Badges can ONLY be created through submit_completion function
+-- The function uses SECURITY DEFINER to bypass RLS
+-- Direct inserts from client are BLOCKED
 
 -- Users cannot update or delete badges
 -- No UPDATE or DELETE policies = operations blocked
