@@ -1,14 +1,14 @@
 schema: spec-driven
 
 context: |
-  Project: team-43-explorador-urbano
+  Proyecto: team-43-explorador-urbano
   Stack: Vite 8 + React 19 + TypeScript 6 (npm)
-  Architecture: frontend-only app shell in src/app with SDD/OpenSpec-first workflow
-  Testing: Vitest 4 + React Testing Library + jsdom; strict TDD enabled
-  Quality: oxlint, tsc -b, GitHub Actions CI on Node 22
-  Collaboration: GitHub Flow, Conventional Commits, ~400 line review budget
-  Persistence: hybrid (OpenSpec + Engram)
-  Platform decision: Supabase + Vercel supersedes the previous AWS/Amplify plan; implementation must keep progress/rewards server/DB-derived and keep Supabase service role out of client code.
+  Arquitectura: app shell solo de frontend en src/app con flujo SDD/OpenSpec-first
+  Testing: Vitest 4 + React Testing Library + jsdom; TDD estricto habilitado
+  Calidad: oxlint, tsc -b, CI de GitHub Actions en Node 22
+  Colaboración: GitHub Flow, Conventional Commits, presupuesto de review de ~400 líneas
+  Persistencia: híbrida (OpenSpec + Engram)
+  Decisión de plataforma: Supabase + Vercel reemplaza el plan previo de AWS/Amplify; la implementación debe mantener el progreso/recompensas derivados del servidor/DB y mantener la service role de Supabase fuera del código del cliente.
 
 strict_tdd: true
 
@@ -44,24 +44,24 @@ testing:
 
 rules:
   proposal:
-    - Write artifacts in English.
-    - State impact on parallel work across 3 developers.
-    - Include rollback plan for risky changes.
+    - Escribir artefactos en español.
+    - Indicar el impacto en el trabajo paralelo entre 3 desarrolladores.
+    - Incluir plan de rollback para cambios riesgosos.
   specs:
-    - Write artifacts in English.
-    - Use Given/When/Then for scenarios.
-    - Use RFC 2119 keywords (MUST, SHOULD, MAY).
+    - Escribir artefactos en español.
+    - Usar DADO/CUANDO/ENTONCES para los escenarios.
+    - Usar palabras clave RFC 2119 en español (DEBE, DEBERÍA, PUEDE).
   design:
-    - Write artifacts in English.
-    - Document architecture decisions and team ownership boundaries.
+    - Escribir artefactos en español.
+    - Documentar las decisiones de arquitectura y los límites de responsabilidad del equipo.
   tasks:
-    - Write artifacts in English.
-    - Group work for delegation across 3 developers.
-    - Keep tasks independently reviewable within ~400 changed lines when possible.
+    - Escribir artefactos en español.
+    - Agrupar el trabajo para delegación entre 3 desarrolladores.
+    - Mantener las tareas revisables de forma independiente dentro de ~400 líneas modificadas cuando sea posible.
   apply:
     guidelines:
-      - Implementation is opt-in later; default workflow stops at task delegation.
-      - Follow existing project patterns once source code exists.
+      - La implementación es opt-in más adelante; el flujo por defecto se detiene en la delegación de tareas.
+      - Seguir los patrones existentes del proyecto una vez que exista código fuente.
     tdd: true
     test_command: npm run test
   verify:
@@ -69,4 +69,4 @@ rules:
     build_command: npm run build
     coverage_threshold: 0
   archive:
-    - Preserve completed change history in openspec/changes/archive.
+    - Preservar el historial de cambios completados en openspec/changes/archive.

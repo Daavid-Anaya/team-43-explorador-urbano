@@ -1,62 +1,62 @@
-# Challenge Completion Specification
+# Especificación de Challenge Completion
 
-## Purpose
+## Propósito
 
-Define proof of visit through proximity checks and photo evidence.
+Definir la prueba de visita mediante verificaciones de proximidad y evidencia fotográfica.
 
-## Requirements
+## Requisitos
 
-### Requirement: Proximity-Gated Photo Submission
+### Requisito: Envío de Foto con Compuerta de Proximidad
 
-The system MUST require an authenticated user, geolocation-based proximity validation, acceptable GPS accuracy, uploaded photo evidence, and no prior completion of the same challenge before marking a challenge complete.
+El sistema DEBE requerir un usuario autenticado, validación de proximidad basada en geolocalización, precisión de GPS aceptable, evidencia fotográfica subida y ningún completado previo del mismo desafío antes de marcar un desafío como completo.
 
-Unless a challenge overrides `radiusMeters`, MVP completion MUST use `radiusMeters = 80`. The system MUST reject completion when `accuracyMeters` is missing or greater than `maxGpsAccuracyMeters = 100`.
+A menos que un desafío sobreescriba `radiusMeters`, el completado del MVP DEBE usar `radiusMeters = 80`. El sistema DEBE rechazar el completado cuando `accuracyMeters` esté ausente o sea mayor que `maxGpsAccuracyMeters = 100`.
 
-#### Scenario: User completes challenge inside allowed radius
+#### Escenario: El usuario completa el desafío dentro del radio permitido
 
-- GIVEN an authenticated user is within the configured challenge radius, has GPS accuracy of 100 meters or better, and has uploaded photo evidence
-- WHEN the user submits completion evidence
-- THEN the system stores the evidence submission and marks the challenge complete for that user
-- AND the completion result returns updated progress data
+- DADO un usuario autenticado que está dentro del radio configurado del desafío, tiene una precisión de GPS de 100 metros o mejor y ha subido evidencia fotográfica
+- CUANDO el usuario envía la evidencia de completado
+- ENTONCES el sistema almacena el envío de evidencia y marca el desafío como completo para ese usuario
+- Y el resultado del completado devuelve datos de progreso actualizados
 
-#### Scenario: Location is outside radius or too inaccurate
+#### Escenario: La ubicación está fuera del radio o es demasiado imprecisa
 
-- GIVEN an authenticated user attempting completion with location outside the allowed radius or GPS accuracy greater than 100 meters
-- WHEN the user submits completion evidence
-- THEN the system rejects the completion attempt
-- AND the user is told to move closer or retry when GPS accuracy improves
+- DADO un usuario autenticado que intenta el completado con la ubicación fuera del radio permitido o con precisión de GPS mayor a 100 metros
+- CUANDO el usuario envía la evidencia de completado
+- ENTONCES el sistema rechaza el intento de completado
+- Y se le indica al usuario que se acerque más o reintente cuando la precisión de GPS mejore
 
-#### Scenario: User is unauthenticated
+#### Escenario: El usuario no está autenticado
 
-- GIVEN a visitor without an authenticated session
-- WHEN the visitor attempts to submit challenge completion evidence
-- THEN the system rejects the completion attempt
-- AND the visitor is told to sign in before completing challenges
+- DADO un visitante sin una sesión autenticada
+- CUANDO el visitante intenta enviar evidencia de completado de un desafío
+- ENTONCES el sistema rechaza el intento de completado
+- Y se le indica al visitante que inicie sesión antes de completar desafíos
 
-#### Scenario: Photo evidence is missing
+#### Escenario: Falta la evidencia fotográfica
 
-- GIVEN an authenticated user inside the allowed radius with acceptable GPS accuracy
-- WHEN the user submits completion without uploaded photo evidence
-- THEN the system rejects the completion attempt
-- AND the challenge remains incomplete for that user
+- DADO un usuario autenticado dentro del radio permitido con precisión de GPS aceptable
+- CUANDO el usuario envía el completado sin evidencia fotográfica subida
+- ENTONCES el sistema rechaza el intento de completado
+- Y el desafío permanece incompleto para ese usuario
 
-#### Scenario: Geolocation permission is denied for completion
+#### Escenario: Se deniega el permiso de geolocalización para el completado
 
-- GIVEN an authenticated user denied geolocation permission on a device needed for completion proof
-- WHEN the user attempts to submit a challenge completion
-- THEN the system does not accept the completion
-- AND the user is told that location permission is required for MVP proof validation
+- DADO un usuario autenticado que denegó el permiso de geolocalización en un dispositivo necesario para la prueba de completado
+- CUANDO el usuario intenta enviar el completado de un desafío
+- ENTONCES el sistema no acepta el completado
+- Y se le indica al usuario que el permiso de ubicación es requerido para la validación de prueba del MVP
 
-#### Scenario: Photo upload or connection fails
+#### Escenario: La subida de foto o la conexión falla
 
-- GIVEN an authenticated user passed proximity validation
-- WHEN photo capture, upload, or submission fails because of device or network error
-- THEN the system does not mark the challenge complete
-- AND the user sees a retry path without creating a duplicate completion
+- DADO un usuario autenticado que pasó la validación de proximidad
+- CUANDO la captura, subida o envío de la foto falla por un error del dispositivo o de red
+- ENTONCES el sistema no marca el desafío como completo
+- Y el usuario ve una ruta de reintento sin crear un completado duplicado
 
-#### Scenario: User attempts duplicate completion
+#### Escenario: El usuario intenta un completado duplicado
 
-- GIVEN an authenticated user already completed a specific challenge
-- WHEN the user resubmits evidence for the same challenge
-- THEN the system rejects the duplicate completion
-- AND the user's existing points and rewards remain unchanged
+- DADO un usuario autenticado que ya completó un desafío específico
+- CUANDO el usuario reenvía evidencia para el mismo desafío
+- ENTONCES el sistema rechaza el completado duplicado
+- Y los puntos y recompensas existentes del usuario permanecen sin cambios

@@ -1,109 +1,109 @@
-# Supabase Vercel Platform Specification
+# Especificación de Supabase Vercel Platform
 
-## Purpose
+## Propósito
 
-Define the minimal Supabase-backed runtime and Vercel hosting expectations for the MVP. This spec supersedes the previous AWS/Amplify platform direction.
+Definir el runtime mínimo respaldado por Supabase y las expectativas de hosting en Vercel para el MVP. Este spec reemplaza la dirección previa de plataforma AWS/Amplify.
 
-## Requirements
+## Requisitos
 
-### Requirement: Supabase and Vercel Deployable Backend
+### Requisito: Backend Desplegable con Supabase y Vercel
 
-The system MUST be deployable with Vercel for the web client and Supabase for authenticated data operations, RLS-protected persistence, private evidence storage, seed data, and completion validation.
+El sistema DEBE ser desplegable con Vercel para el cliente web y Supabase para las operaciones de datos autenticadas, la persistencia protegida por RLS, el storage privado de evidencia, los datos semilla y la validación de completado.
 
-#### Scenario: MVP environment is deployed
+#### Escenario: El entorno del MVP está desplegado
 
-- GIVEN the team provisions the MVP environment
-- WHEN the application is deployed
-- THEN the frontend is reachable through Vercel
-- AND Supabase Auth, Postgres/RLS, Storage, and completion validation support login, discovery, completion, and progress retrieval
+- DADO que el equipo provisiona el entorno del MVP
+- CUANDO se despliega la aplicación
+- ENTONCES el frontend es accesible a través de Vercel
+- Y Supabase Auth, Postgres/RLS, Storage y la validación de completado soportan login, descubrimiento, completado y recuperación de progreso
 
-#### Scenario: Seed dataset is loaded
+#### Escenario: El dataset semilla está cargado
 
-- GIVEN the team provisions the MVP environment
-- WHEN the curated challenge seed process runs
-- THEN the active city has 8-12 challenges with the accepted challenge fields
-- AND seeded challenge categories are limited to Art, History, Nature, Landmark, and Hidden Gem
+- DADO que el equipo provisiona el entorno del MVP
+- CUANDO se ejecuta el proceso de semilla de desafíos curados
+- ENTONCES la ciudad activa tiene 8-12 desafíos con los campos aceptados del challenge
+- Y las categorías de desafíos sembrados se limitan a Art, History, Nature, Landmark y Hidden Gem
 
-#### Scenario: Seed data is missing or unavailable
+#### Escenario: Los datos semilla están ausentes o no disponibles
 
-- GIVEN the runtime is reachable but curated challenge seed data was not loaded correctly
-- WHEN a user opens the discovery experience
-- THEN the system returns an empty or unavailable challenge state without corrupting user progress
-- AND the issue can be corrected by restoring the curated dataset
+- DADO que el runtime es accesible pero los datos semilla de desafíos curados no se cargaron correctamente
+- CUANDO un usuario abre la experiencia de descubrimiento
+- ENTONCES el sistema devuelve un estado de desafíos vacío o no disponible sin corromper el progreso del usuario
+- Y el problema puede corregirse restaurando el dataset curado
 
-### Requirement: Non-Forgeable Completion and Rewards
+### Requisito: Completado y Recompensas No Falsificables
 
-The system MUST derive completion progress, points, and badges from server/DB-validated state. The client MUST NOT be trusted to submit points, badges, or reward progress.
+El sistema DEBE derivar el progreso de completado, los puntos y los badges del estado validado por el servidor/DB. NO DEBE confiarse en el cliente para enviar puntos, badges o progreso de recompensa.
 
-#### Scenario: Client submits forged reward data
+#### Escenario: El cliente envía datos de recompensa falsificados
 
-- GIVEN an authenticated user submits completion data with client-provided points or badges
-- WHEN the completion boundary processes the request
-- THEN the submitted reward fields are ignored or rejected
-- AND awarded progress is derived from the accepted challenge and persisted completion history
+- DADO que un usuario autenticado envía datos de completado con puntos o badges provistos por el cliente
+- CUANDO el límite de completado procesa la solicitud
+- ENTONCES los campos de recompensa enviados son ignorados o rechazados
+- Y el progreso otorgado se deriva del desafío aceptado y del historial de completados persistido
 
-#### Scenario: Supabase RLS protects user-owned data
+#### Escenario: El RLS de Supabase protege los datos propiedad del usuario
 
-- GIVEN an authenticated user attempts to read or write another user's profile, completion, or evidence metadata
-- WHEN Supabase policies evaluate the request
-- THEN the operation is denied unless an explicit read-safe policy allows it
+- DADO que un usuario autenticado intenta leer o escribir el perfil, completado o metadatos de evidencia de otro usuario
+- CUANDO las políticas de Supabase evalúan la solicitud
+- ENTONCES la operación es denegada a menos que una política explícita de lectura segura lo permita
 
-#### Scenario: Service role is kept out of the browser
+#### Escenario: La service role se mantiene fuera del navegador
 
-- GIVEN the frontend is built for Vercel
-- WHEN environment variables are exposed to the browser bundle
-- THEN only public Supabase URL and anon key values are available
-- AND `SUPABASE_SERVICE_ROLE_KEY` is never exposed through `VITE_*`, client code, logs, or checked-in files
+- DADO que el frontend se compila para Vercel
+- CUANDO las variables de entorno se exponen al bundle del navegador
+- ENTONCES solo están disponibles los valores públicos de URL de Supabase y anon key
+- Y `SUPABASE_SERVICE_ROLE_KEY` nunca se expone a través de `VITE_*`, código del cliente, logs ni archivos versionados
 
-### Requirement: MVP Production Visibility
+### Requisito: Visibilidad de Producción del MVP
 
-The MVP MUST define minimal production visibility for deploy, smoke, and backend failure diagnosis without requiring a full observability platform.
+El MVP DEBE definir una visibilidad mínima de producción para el deploy, el smoke y el diagnóstico de fallas del backend sin requerir una plataforma completa de observabilidad.
 
-#### Scenario: Deployment evidence is captured
+#### Escenario: Se captura la evidencia de despliegue
 
-- GIVEN the team deploys the MVP through Vercel
-- WHEN the deploy finishes
-- THEN the team records the deploy result and relevant Vercel build/deploy logs
-- AND the team captures manual smoke evidence including browser/device, expected path, result, and browser console errors if present
+- DADO que el equipo despliega el MVP a través de Vercel
+- CUANDO el deploy finaliza
+- ENTONCES el equipo registra el resultado del deploy y los logs relevantes de build/deploy de Vercel
+- Y el equipo captura evidencia de smoke manual incluyendo navegador/dispositivo, ruta esperada, resultado y errores de consola del navegador si están presentes
 
-#### Scenario: Completion backend emits error evidence
+#### Escenario: El backend de completado emite evidencia de error
 
-- GIVEN the completion validation boundary is implemented in Supabase
-- WHEN validation or runtime processing fails unexpectedly
-- THEN Supabase logs or database-visible diagnostics provide enough evidence to diagnose validation, duplicate, storage, or persistence failures without exposing secrets
+- DADO que el límite de validación de completado está implementado en Supabase
+- CUANDO la validación o el procesamiento en runtime falla inesperadamente
+- ENTONCES los logs de Supabase o los diagnósticos visibles en la base de datos proporcionan evidencia suficiente para diagnosticar fallas de validación, duplicado, storage o persistencia sin exponer secretos
 
-#### Scenario: Demo smoke checklist covers expected failures
+#### Escenario: El checklist de smoke de demo cubre las fallas esperadas
 
-- GIVEN the team prepares a demo-time health checklist
-- WHEN the checklist is run
-- THEN it covers login, discovery, successful completion, progression retrieval, share fallback, and expected failure capture
-- AND expected failures include denied geolocation, inaccurate GPS, outside-radius attempts, duplicate completion, missing evidence, forged reward fields, and missing seed data
+- DADO que el equipo prepara un checklist de salud para la hora de la demo
+- CUANDO se ejecuta el checklist
+- ENTONCES cubre login, descubrimiento, completado exitoso, recuperación de progresión, fallback de compartir y captura de fallas esperadas
+- Y las fallas esperadas incluyen geolocalización denegada, GPS impreciso, intentos fuera del radio, completado duplicado, evidencia ausente, campos de recompensa falsificados y datos semilla faltantes
 
-### Requirement: Post-Deploy Recovery
+### Requisito: Recuperación Post-Despliegue
 
-The MVP MUST document non-destructive recovery paths for frontend deploy, Supabase validation/policy, data seed, and production data safety issues.
+El MVP DEBE documentar rutas de recuperación no destructivas para problemas de deploy del frontend, validación/política de Supabase, semilla de datos y seguridad de datos de producción.
 
-#### Scenario: Frontend deploy is bad
+#### Escenario: El deploy del frontend es defectuoso
 
-- GIVEN the deployed frontend is broken after release
-- WHEN a previous known-good Vercel deployment is available
-- THEN the team redeploys that known-good version or reverts through a small PR before redeploying
+- DADO que el frontend desplegado está roto después del release
+- CUANDO hay disponible un despliegue de Vercel previo conocido como bueno
+- ENTONCES el equipo redespliega esa versión conocida como buena o revierte mediante un PR pequeño antes de redesplegar
 
-#### Scenario: Seed data is bad
+#### Escenario: Los datos semilla son defectuosos
 
-- GIVEN bad challenge seed data is active
-- WHEN the issue affects discovery or demo correctness
-- THEN the team disables or removes the bad seed records through a seed rollback task
-- AND restores the known-good seed file before rerunning seed validation
+- DADO que hay datos semilla de desafíos defectuosos activos
+- CUANDO el problema afecta la corrección del descubrimiento o de la demo
+- ENTONCES el equipo deshabilita o elimina los registros semilla defectuosos mediante una tarea de rollback de semilla
+- Y restaura el archivo semilla conocido como bueno antes de reejecutar la validación de semilla
 
-#### Scenario: Supabase policy or validation boundary is bad
+#### Escenario: La política o el límite de validación de Supabase es defectuoso
 
-- GIVEN an RLS, storage policy, RPC, Edge Function, or Postgres function issue appears after deploy
-- WHEN the issue cannot be safely handled through frontend rollback
-- THEN the team fixes forward through a small PR and captures deploy plus smoke evidence after redeploy
+- DADO que aparece un problema de RLS, política de storage, RPC, Edge Function o función Postgres después del deploy
+- CUANDO el problema no puede manejarse de forma segura mediante rollback del frontend
+- ENTONCES el equipo corrige hacia adelante mediante un PR pequeño y captura evidencia de deploy más smoke después de redesplegar
 
-#### Scenario: Destructive migration is proposed
+#### Escenario: Se propone una migración destructiva
 
-- GIVEN a production data change could destroy or rewrite user, challenge, completion, reward, or evidence metadata
-- WHEN the team proposes the change during the MVP
-- THEN the change is blocked unless an explicit migration, recovery, and approval plan exists first
+- DADO que un cambio de datos de producción podría destruir o reescribir metadatos de usuario, desafío, completado, recompensa o evidencia
+- CUANDO el equipo propone el cambio durante el MVP
+- ENTONCES el cambio es bloqueado a menos que exista primero un plan explícito de migración, recuperación y aprobación

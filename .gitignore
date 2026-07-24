@@ -1,4 +1,15 @@
-.atl
-
 node_modules
 dist
+
+# Local environment secrets
+.env
+.env.local
+.env.*.local
+
+# AI agent config
+CLAUDE.md
+AGENTS.md
+.claude/
+.agents/
+.vscode/
+.atl/

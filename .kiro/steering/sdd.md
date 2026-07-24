@@ -20,5 +20,5 @@ Los agentes de Kiro deben leer:
 
 ## Idioma de artefactos
 
-- Los artefactos SDD/OpenSpec permanecen en inglés.
-- La documentación de colaboración para el equipo permanece en español neutral/profesional.
+- Todos los artefactos del proyecto (SDD/OpenSpec, documentación de colaboración y plantillas) se mantienen en español neutral/profesional.
+- Se conservan en inglés los identificadores de código, nombres de campos del contrato, valores de datos (categorías, niveles, badges), rutas de archivo, comandos y palabras clave técnicas.

@@ -1,22 +1,22 @@
-# Design: Urban Explorer MVP
+# Diseño: Urban Explorer MVP
 
-## Technical Approach
+## Enfoque Técnico
 
-Bootstrap a TypeScript React SPA on Vite, hosted on Vercel and backed by Supabase. Supabase owns auth, Postgres tables, RLS, private evidence storage, and the server/DB validation boundary for completions; React owns discovery, evidence UX, derived progression display, and sharing. This replaces the superseded AWS/Amplify direction to reduce hackathon setup time.
+Hacer el bootstrap de una SPA React en TypeScript sobre Vite, alojada en Vercel y respaldada por Supabase. Supabase es responsable de auth, tablas Postgres, RLS, almacenamiento privado de evidencia y el límite de validación del servidor/DB para los completados; React es responsable del descubrimiento, la UX de evidencia, la visualización de la progresión derivada y el compartir. Esto reemplaza la dirección de AWS/Amplify para reducir el tiempo de configuración del hackathon.
 
-## Architecture Decisions
+## Decisiones de Arquitectura
 
-| Topic | Choice | Alternatives considered | Rationale |
+| Tema | Elección | Alternativas consideradas | Justificación |
 |---|---|---|---|
-| Web stack | Vite + React + TypeScript | Next.js, plain HTML | Fast SPA bootstrap, simple browser API access, no SSR required. |
-| Platform | Supabase + Vercel | AWS Amplify Gen 2, custom AWS stack | Faster auth/data/storage/deploy setup for the remaining hackathon window. |
-| Auth | Supabase Auth | Custom auth, Cognito | Managed identity with simple session integration and RLS support. |
-| Completion boundary | Supabase RPC/Edge Function or Postgres function guarded by RLS | Client-only writes | Server/DB validates radius, duplicate completion, evidence, and derived rewards. |
-| Evidence storage | Private Supabase Storage bucket keyed by authenticated user | Public bucket, metadata-only | Photo evidence is sensitive and must not be public by default. |
-| Reward state | Derived from accepted completions and seed rules | Client-submitted points/badges | Prevents forged progress and keeps MVP rewards visual/minimal. |
-| Challenge catalog | 8-12 one-city seed records | Dynamic admin UI, multi-city catalog | Predictable demo data without backoffice work. |
+| Stack web | Vite + React + TypeScript | Next.js, HTML plano | Bootstrap rápido de SPA, acceso simple a APIs del navegador, sin necesidad de SSR. |
+| Plataforma | Supabase + Vercel | AWS Amplify Gen 2, stack AWS a medida | Configuración más rápida de auth/datos/storage/deploy para la ventana restante del hackathon. |
+| Auth | Supabase Auth | Auth a medida, Cognito | Identidad gestionada con integración simple de sesión y soporte de RLS. |
+| Límite de completado | Supabase RPC/Edge Function o función Postgres protegida por RLS | Escrituras solo desde el cliente | El servidor/DB valida radio, completado duplicado, evidencia y recompensas derivadas. |
+| Storage de evidencia | Bucket privado de Supabase Storage indexado por usuario autenticado | Bucket público, solo metadatos | La evidencia fotográfica es sensible y no debe ser pública por defecto. |
+| Estado de recompensa | Derivado de completados aceptados y reglas de semilla | Puntos/badges enviados por el cliente | Evita el progreso falsificado y mantiene las recompensas del MVP visuales/mínimas. |
+| Catálogo de desafíos | 8-12 registros semilla de una sola ciudad | UI de admin dinámica, catálogo multi-ciudad | Datos de demo predecibles sin trabajo de backoffice. |
 
-## Data Flow
+## Flujo de Datos
 
 ```text
 React screens -> Supabase client -> Auth/Postgres/RLS/Storage
@@ -26,68 +26,68 @@ submit_completion -> validate auth/radius/accuracy/evidence/duplicate -> insert 
 Progress view -> read derived points/badges/history from DB view or server response
 ```
 
-Browser APIs stay behind adapters: `locationService` wraps Geolocation states, `photoEvidenceService` wraps camera/file input, and `shareService` wraps Web Share with copy fallback. Permission denial allows browsing but blocks completion where required.
+Las APIs del navegador permanecen detrás de adaptadores: `locationService` envuelve los estados de Geolocation, `photoEvidenceService` envuelve la entrada de cámara/archivo y `shareService` envuelve Web Share con fallback de copiado. La denegación de permisos permite navegar pero bloquea el completado donde es requerido.
 
-## File Changes
+## Cambios en Archivos
 
-| File | Action | Description |
+| Archivo | Acción | Descripción |
 |------|--------|-------------|
-| `package.json` | Create/Modify | React/Vite/TypeScript scripts plus Supabase/Vercel verification scripts when available. |
-| `src/main.tsx`, `src/app/App.tsx` | Create | App shell, auth session boundary, routes. |
-| `src/lib/supabase/*` | Create | Browser-safe Supabase client using anon key only. |
-| `src/features/discovery/*` | Create | list, detail, distance formatting, permission states. |
-| `src/features/completion/*` | Create | proximity UX, photo upload, submit flow. |
-| `src/features/progression/*` | Create | derived profile, points, badges, history, sharing. |
-| `src/shared/browser/*` | Create | geolocation, photo, share adapters. |
-| `supabase/migrations/*` | Create | Tables, RLS policies, storage bucket/policies, completion validation boundary. |
-| `supabase/seed/challenges.json` | Create | 8-12 one-city curated challenges. |
-| `.env.example`, `README.md`, `vercel.json` | Create/Modify | Public anon env, private server env guidance, Vercel deploy docs. |
+| `package.json` | Crear/Modificar | Scripts de React/Vite/TypeScript más scripts de verificación de Supabase/Vercel cuando estén disponibles. |
+| `src/main.tsx`, `src/app/App.tsx` | Crear | Shell de la app, límite de sesión de auth, rutas. |
+| `src/lib/supabase/*` | Crear | Cliente Supabase seguro para el navegador usando solo anon key. |
+| `src/features/discovery/*` | Crear | lista, detalle, formateo de distancia, estados de permisos. |
+| `src/features/completion/*` | Crear | UX de proximidad, subida de foto, flujo de envío. |
+| `src/features/progression/*` | Crear | perfil derivado, puntos, badges, historial, compartir. |
+| `src/shared/browser/*` | Crear | adaptadores de geolocalización, foto y compartir. |
+| `supabase/migrations/*` | Crear | Tablas, políticas RLS, bucket/políticas de storage, límite de validación de completado. |
+| `supabase/seed/challenges.json` | Crear | 8-12 desafíos curados de una sola ciudad. |
+| `.env.example`, `README.md`, `vercel.json` | Crear/Modificar | Entorno público con anon, guía de entorno privado del servidor, documentación de deploy en Vercel. |
 
-## Interfaces / Contracts
+## Interfaces / Contratos
 
-Core records: `profiles(user_id, display_name)`, `challenges(...)`, `completions(user_id, challenge_id, completed_at, latitude, longitude, accuracy_meters, evidence_path, points_awarded)`, `badges(...)`. Unique completion key: `(user_id, challenge_id)`.
+Registros centrales: `profiles(user_id, display_name)`, `challenges(...)`, `completions(user_id, challenge_id, completed_at, latitude, longitude, accuracy_meters, evidence_path, points_awarded)`, `badges(...)`. Clave única de completado: `(user_id, challenge_id)`.
 
-`submit_completion` input: `{ challengeId, latitude, longitude, accuracyMeters, evidencePath }`. It rejects unauthenticated users, denied/missing location, inaccurate GPS, outside-radius attempts, duplicate completions, missing/private-inaccessible evidence, and any client-submitted reward fields. It returns the accepted completion plus derived progress summary.
+Entrada de `submit_completion`: `{ challengeId, latitude, longitude, accuracyMeters, evidencePath }`. Rechaza usuarios no autenticados, ubicación denegada/ausente, GPS impreciso, intentos fuera del radio, completados duplicados, evidencia ausente/inaccesible de forma privada y cualquier campo de recompensa enviado por el cliente. Devuelve el completado aceptado más el resumen de progreso derivado.
 
-Security boundary: Vite only receives Supabase URL and anon key. `SUPABASE_SERVICE_ROLE_KEY` is allowed only in server-side/private tooling and must never be exposed through `VITE_*`, browser bundles, or checked-in docs with real values.
+Límite de seguridad: Vite solo recibe la URL de Supabase y la anon key. `SUPABASE_SERVICE_ROLE_KEY` solo se permite en tooling del lado del servidor/privado y nunca debe exponerse a través de `VITE_*`, bundles del navegador ni documentación versionada con valores reales.
 
-## Testing Strategy
+## Estrategia de Testing
 
-| Layer | What to Test | Approach |
+| Capa | Qué Probar | Enfoque |
 |-------|-------------|----------|
-| Unit | distance math, derived level/badge calculation, seed validation, permission states | Vitest with pure functions and mocked browser adapters. |
-| Integration | RLS, storage policy, completion validation, no client reward writes | Supabase local test or SQL/RPC contract tests when tooling exists. |
-| E2E | login, browse without location, upload evidence, complete, share fallback | Playwright after app bootstrap; mock geolocation and file upload. |
+| Unit | matemática de distancia, cálculo derivado de nivel/badge, validación de semilla, estados de permisos | Vitest con funciones puras y adaptadores del navegador mockeados. |
+| Integración | RLS, política de storage, validación de completado, sin escrituras de recompensa del cliente | Test local de Supabase o tests de contrato SQL/RPC cuando exista el tooling. |
+| E2E | login, navegar sin ubicación, subir evidencia, completar, fallback de compartir | Playwright después del bootstrap de la app; mockear geolocalización y subida de archivos. |
 
-CI remains tied to real `package.json` scripts. Do not invent placeholder commands.
+CI permanece atado a los scripts reales de `package.json`. No inventar comandos de marcador de posición.
 
-## MVP Observability
+## Observabilidad del MVP
 
-- Vercel build/deploy logs are the first source of truth for frontend deploy failures.
-- Supabase Auth, database, storage, and function logs are the first source of truth for backend validation failures.
-- Manual smoke evidence must include hosted URL/local runtime, browser/device, expected path, result, and console errors if present.
-- Demo verification must capture expected failures: unauthenticated completion, denied geolocation, inaccurate GPS, outside-radius attempts, duplicate completion, missing evidence, forged reward fields, and missing seed data.
+- Los logs de build/deploy de Vercel son la primera fuente de verdad para las fallas de deploy del frontend.
+- Los logs de Supabase Auth, base de datos, storage y funciones son la primera fuente de verdad para las fallas de validación del backend.
+- La evidencia de smoke manual debe incluir la URL alojada/runtime local, el navegador/dispositivo, la ruta esperada, el resultado y los errores de consola si están presentes.
+- La verificación de demo debe capturar las fallas esperadas: completado no autenticado, geolocalización denegada, GPS impreciso, intentos fuera del radio, completado duplicado, evidencia ausente, campos de recompensa falsificados y datos semilla faltantes.
 
-## Threat Matrix
+## Matriz de Amenazas
 
-N/A - no shell, subprocess, VCS/PR automation, executable-file classification, or process-integration boundary. App routing is client-side screen navigation only; no route execution boundary is introduced.
+N/A - sin shell, subproceso, automatización de VCS/PR, clasificación de archivos ejecutables ni límite de integración de procesos. El enrutamiento de la app es solo navegación de pantallas del lado del cliente; no se introduce ningún límite de ejecución de rutas.
 
-## Migration / Rollout
+## Migración / Rollout
 
-No destructive production data migrations are allowed in the MVP without an explicit plan. Bootstrap Supabase locally or in a disposable project first, seed one-city challenges from a known-good file, then deploy the SPA through Vercel.
+No se permiten migraciones destructivas de datos de producción en el MVP sin un plan explícito. Hacer el bootstrap de Supabase localmente o en un proyecto descartable primero, sembrar los desafíos de una sola ciudad desde un archivo conocido como bueno, y luego desplegar la SPA a través de Vercel.
 
-Post-deploy recovery guidance:
-- Frontend failures: redeploy the previous known-good Vercel deployment or revert with a small PR before redeploying.
-- Seed failures: disable/remove bad seed records through a seed rollback task and restore the known-good seed file.
-- Supabase validation/policy failures: prefer a small fix-forward PR and re-run migration/policy smoke evidence.
-- Data safety: block destructive production changes unless impact, backup/restore path, and owner approval are documented first.
+Guía de recuperación post-despliegue:
+- Fallas del frontend: redesplegar el despliegue de Vercel previo conocido como bueno o revertir con un PR pequeño antes de redesplegar.
+- Fallas de semilla: deshabilitar/eliminar los registros semilla defectuosos mediante una tarea de rollback de semilla y restaurar el archivo semilla conocido como bueno.
+- Fallas de validación/política de Supabase: preferir un PR pequeño de corrección hacia adelante y re-ejecutar la evidencia de smoke de migración/política.
+- Seguridad de datos: bloquear cambios destructivos de producción a menos que el impacto, la ruta de backup/restore y la aprobación del responsable estén documentados primero.
 
-## Work Boundaries
+## Límites de Trabajo
 
-- Collaborator A: React shell, Supabase Auth session boundary, discovery, location adapter.
-- Collaborator B: Supabase schema, RLS, storage, seed data, completion validation.
-- Collaborator C: completion UX, progression display, sharing, tests.
+- Colaborador A: shell de React, límite de sesión de Supabase Auth, descubrimiento, adaptador de ubicación.
+- Colaborador B: esquema de Supabase, RLS, storage, datos semilla, validación de completado.
+- Colaborador C: UX de completado, visualización de progresión, compartir, tests.
 
-## Open Questions
+## Preguntas Abiertas
 
-- [ ] Exact city and initial 8-12 challenge seed dataset values.
+- [ ] Los valores exactos de la ciudad y del dataset semilla inicial de 8-12 desafíos.

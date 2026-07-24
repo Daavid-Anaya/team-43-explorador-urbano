@@ -1,25 +1,25 @@
-# User Identity Specification
+# Especificación de User Identity
 
-## Purpose
+## Propósito
 
-Define lightweight sign-in and user-owned progress for the MVP.
+Definir el inicio de sesión liviano y el progreso propiedad del usuario para el MVP.
 
-## Requirements
+## Requisitos
 
-### Requirement: Simple Authenticated Identity
+### Requisito: Identidad Autenticada Simple
 
-The system MUST let a person create or resume a lightweight authenticated identity before storing progress, and MUST associate profile, points, badges, and completions with that identity.
+El sistema DEBE permitir que una persona cree o retome una identidad autenticada liviana antes de almacenar progreso, y DEBE asociar el perfil, los puntos, los badges y los completados con esa identidad.
 
-#### Scenario: First login creates profile
+#### Escenario: El primer login crea el perfil
 
-- GIVEN a visitor without an existing session
-- WHEN the visitor completes the MVP login flow
-- THEN the system creates or retrieves a user profile and starts an authenticated session
-- AND subsequent progress is owned by that user identity
+- DADO un visitante sin una sesión existente
+- CUANDO el visitante completa el flujo de login del MVP
+- ENTONCES el sistema crea o recupera un perfil de usuario e inicia una sesión autenticada
+- Y el progreso posterior es propiedad de esa identidad de usuario
 
-#### Scenario: Anonymous user tries to persist progress
+#### Escenario: Un usuario anónimo intenta persistir progreso
 
-- GIVEN a visitor who is not authenticated
-- WHEN the visitor attempts to submit challenge completion or open saved progress
-- THEN the system blocks persistence until login is completed
-- AND the visitor is shown a clear sign-in requirement
+- DADO un visitante que no está autenticado
+- CUANDO el visitante intenta enviar el completado de un desafío o abrir el progreso guardado
+- ENTONCES el sistema bloquea la persistencia hasta que se complete el login
+- Y se le muestra al visitante un requisito claro de inicio de sesión

@@ -36,7 +36,7 @@ body:
       label: Slice de PR
       description: Seleccione el slice de revisión previsto desde el plan de tareas SDD.
       options:
-        - PR1 bootstrap + base Amplify
+        - PR1 bootstrap + base Supabase
         - PR2 flujo de completado
         - PR3 progresión + deploy + demo
         - Solo documentación/configuración
