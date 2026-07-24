@@ -1,6 +1,6 @@
 # Explorador Urbano
 
-Explorador Urbano es un MVP de hackathon para descubrir una ciudad a través de desafíos, evidencia en el lugar y progresión gamificada. El objetivo es validar rápido una experiencia mobile-first, desplegable en AWS, que motive a residentes y visitantes a recorrer puntos de interés reales.
+Explorador Urbano es un MVP de hackathon para descubrir una ciudad a través de desafíos, evidencia en el lugar y progresión gamificada. El objetivo es validar rápido una experiencia mobile-first, desplegable en Vercel con Supabase, que motive a residentes y visitantes a recorrer puntos de interés reales.
 
 ## Estado Actual
 
@@ -21,15 +21,15 @@ El MVP se enfoca en una sola ciudad y en un recorrido controlado para reducir ri
 | Evidencia | Validación por geolocalización y foto tomada en el lugar. |
 | Progresión | Puntos, niveles y badges por completar desafíos. |
 | Compartir | Tarjeta o resumen compartible del progreso/logro. |
-| Plataforma | Despliegue AWS-first usando Amplify Gen 2. |
+| Plataforma | Despliegue en Vercel con Supabase para auth, datos y storage. |
 
 ## Stack Planificado
 
 | Capa | Tecnología prevista |
 |------|---------------------|
 | Frontend | Vite + React + TypeScript |
-| Backend/cloud | AWS Amplify Gen 2 |
-| Datos y archivos | Recursos administrados por Amplify para datos, autenticación y evidencia fotográfica. |
+| Backend/cloud | Supabase |
+| Datos y archivos | Supabase Auth, Postgres/RLS y Storage privado para evidencia fotográfica. |
 | Flujo de trabajo | GitHub Issues, GitHub Projects, ramas cortas, PRs y revisiones. |
 
 ## Artefactos SDD/OpenSpec
@@ -48,7 +48,7 @@ Si el código y OpenSpec no coinciden, se debe pausar y actualizar el plan antes
 
 ## Trabajo con Kiro
 
-Los colaboradores que usen Amazon/AWS Kiro deben leer primero `.kiro/README.md` y los archivos en `.kiro/steering/`. Ese contexto guía al agente sobre el producto, el flujo GitHub Flow, el stack previsto y la regla principal: OpenSpec/SDD es la fuente de verdad para implementar.
+Los colaboradores que usen Kiro deben leer primero `.kiro/README.md` y los archivos en `.kiro/steering/`. Ese contexto guía al agente sobre el producto, el flujo GitHub Flow, el stack previsto y la regla principal: OpenSpec/SDD es la fuente de verdad para implementar.
 
 No se mantiene una copia de specs en `.kiro/specs/` por ahora. Esto evita duplicar requisitos y reduce el riesgo de que Kiro y OpenSpec se desincronicen.
 
@@ -80,7 +80,7 @@ Convenciones completas: ver `CONTRIBUTING.md`.
 
 - Confirmar la ciudad inicial y los 8-12 desafíos del demo.
 - Bootstrappear la aplicación con Vite, React y TypeScript.
-- Configurar AWS Amplify Gen 2 para autenticación, datos, storage y funciones necesarias.
+- Configurar Supabase para autenticación, datos, RLS, storage privado y validación de completado.
 - Cargar datos semilla de desafíos y reglas base de progresión.
 - Implementar el flujo de descubrimiento, validación por ubicación/foto y progreso compartible.
 - Registrar comandos reales de desarrollo, testing y despliegue cuando existan.

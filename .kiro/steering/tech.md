@@ -5,17 +5,20 @@
 - Vite.
 - React.
 - TypeScript.
-- AWS Amplify Gen 2.
+- Supabase.
+- Vercel.
 
 Este repositorio puede no tener scripts de `npm` hasta que se implemente el slice de bootstrap. No asumir que `npm install`, `npm run dev`, `npm run test` o `npm run build` existen hasta verificarlo en el código.
 
-## Responsabilidades AWS
+## Responsabilidades Supabase/Vercel
 
-- Autenticación de usuarios.
-- Datos de desafíos, progreso, completados y perfiles.
-- Storage para evidencia fotográfica.
-- Functions cuando se necesite validación backend o lógica de completado.
-- Amplify Hosting para despliegue del MVP.
+- Supabase Auth para autenticación de usuarios.
+- Supabase Postgres/RLS para desafíos, progreso derivado, completados y perfiles.
+- Supabase Storage privado para evidencia fotográfica.
+- Supabase RPC, Edge Function o función Postgres para validación backend de completado.
+- Vercel para despliegue del MVP.
+
+La clave service role de Supabase nunca debe llegar al cliente. El frontend solo puede usar variables públicas seguras como URL y anon key.
 
 ## APIs del navegador
 

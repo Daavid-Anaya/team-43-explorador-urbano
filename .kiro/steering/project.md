@@ -9,7 +9,7 @@ Explorador Urbano es un MVP de hackathon para convertir la exploración de una c
 - Evidencia de completado con geolocalización y foto.
 - Progresión con puntos, niveles y badges.
 - Compartir logros o resumen de progreso cuando el navegador lo permita.
-- Despliegue AWS-first, priorizando AWS Amplify Gen 2.
+- Despliegue en Vercel con Supabase para autenticación, datos, RLS, storage y validación segura.
 
 ## Límites de producto
 

@@ -16,7 +16,7 @@ Closes #
 
 ## Alcance
 
-- Slice de PR: PR1 bootstrap + base Amplify / PR2 flujo de completado / PR3 progresión + deploy + demo / solo docs-config
+- Slice de PR: PR1 bootstrap + base Supabase / PR2 flujo de completado / PR3 progresión + deploy + demo / solo docs-config
 - Lane responsable:
 - Límite de rollback:
 - Presupuesto esperado de líneas modificadas: menos de ~400 / excepción explicada abajo

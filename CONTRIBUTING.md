@@ -74,9 +74,9 @@ Campos requeridos en issues:
 
 | Slice | Alcance | Lanes de responsables | Verificación esperada |
 |-------|---------|-----------------------|-----------------------|
-| PR1 bootstrap + base Amplify | Bootstrap de app, recursos de auth/data/storage, ruta de seed y reglas base de progresión. | Dev A shell frontend/discovery, Dev B base Amplify, Dev C soporte de reglas de progresión. | `npm install && npm run dev`, `npx ampx sandbox`, `npm run seed:check`, prueba enfocada de reglas de progresión cuando exista. |
+| PR1 bootstrap + base Supabase | Bootstrap de app, recursos de auth/data/storage, ruta de seed y reglas base de progresión derivada. | Dev A shell frontend/discovery, Dev B base Supabase, Dev C soporte de reglas de progresión. | `npm install && npm run dev`, smoke local/proyecto Supabase, `npm run seed:check`, prueba enfocada de reglas de progresión cuando exista. |
 | PR2 flujo de completado | Validación de completado, UX de carga de evidencia, función submit-completion, controles de duplicado/radio/GPS/evidencia. | Dev B función backend, Dev C UX de completado. | `npm run test -- submit-completion`, `npm run test -- completion photo`, smoke checks con geolocalización y upload mockeados. |
-| PR3 progresión + deploy + demo | UI/historial/share fallback de progresión, wiring de auth, flujos e2e, docs de deploy y checklist de demo. | Dev A wiring de app, Dev B deploy, Dev C progresión/e2e/demo. | `npm run test -- progression share`, `npm run test:e2e`, `npm run build`, dry-run de despliegue cuando esté configurado. |
+| PR3 progresión + deploy + demo | UI/historial/share fallback de progresión, wiring de auth, flujos e2e, docs de deploy Vercel/Supabase y checklist de demo. | Dev A wiring de app, Dev B deploy, Dev C progresión/e2e/demo. | `npm run test -- progression share`, `npm run test:e2e`, `npm run build`, dry-run de despliegue cuando esté configurado. |
 
 Mantener cada slice revisable. Si un slice supera unas 400 líneas modificadas, dividir por comportamiento, no por tipo de archivo.
 
@@ -154,7 +154,7 @@ CI queda pendiente intencionalmente hasta que PR1 cree `package.json` y scripts 
 | El script existe | Comando exacto y resultado. |
 | El script todavía no existe | Comando futuro esperado y tarea de bootstrap que lo agregará. |
 | Chequeo manual de UI | Navegador/dispositivo, escenario y resultado observado. |
-| Chequeo AWS/Amplify | Sandbox, dry-run o comando de deploy y nota de cuenta/entorno. |
+| Chequeo Supabase/Vercel | Smoke local/proyecto, dry-run o comando de deploy y nota de cuenta/entorno. |
 | No aplica | `N/A - razón: ...`, explicando por qué no aplica para este cambio. |
 
 Cuando una prueba deba fallar antes de la implementación, indicarlo en el issue o PR. Cuando la prueba esté disponible, actualizar el PR con el comando exacto y el resultado.

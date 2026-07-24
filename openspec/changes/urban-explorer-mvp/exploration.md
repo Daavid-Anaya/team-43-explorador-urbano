@@ -16,8 +16,8 @@ For this change, the product goal is a hackathon-ready web app that feels origin
    - Cons: Weak persistence, limited anti-cheat controls, poor multi-device continuity, route personalization becomes shallow.
    - Effort: Low
 
-2. **Lightweight serverless MVP** — Web frontend plus small managed backend for challenge state, points, and optional identity.
-   - Pros: Best balance for a publishable product, supports persistence and progression, AWS-friendly without heavy ops, still fast enough for a 3-person team.
+2. **Lightweight managed-platform MVP** — Web frontend plus small managed backend for challenge state, evidence, progress, and identity.
+   - Pros: Best balance for a publishable product, supports persistence and progression, and remains fast enough for a 3-person team.
    - Cons: Adds API/data modeling work, proof validation remains trust-based unless kept simple, auth can consume time if included too early.
    - Effort: Medium
 
@@ -27,9 +27,9 @@ For this change, the product goal is a hackathon-ready web app that feels origin
    - Effort: High
 
 ### Recommendation
-Choose **Lightweight serverless MVP** with a ruthless boundary around the core loop.
+Choose **Lightweight managed-platform MVP** with a ruthless boundary around the core loop.
 
-> Historical note: later SDD phases narrowed the accepted MVP to geolocation + photo evidence, a one-city curated catalog, and no route personalization in the first release. Use `proposal.md`, `design.md`, `specs/*/spec.md`, and `tasks.md` as the current source of truth.
+> Historical note: later SDD phases narrowed the accepted MVP to geolocation + photo evidence, a one-city curated catalog, no route personalization in the first release, and Supabase + Vercel instead of AWS/Amplify. Use `proposal.md`, `design.md`, `specs/*/spec.md`, and `tasks.md` as the current source of truth.
 
 **Historical MVP scope considered during exploration**
 - Target users: curious city walkers, tourists, students, and friend groups who want a playful reason to explore nearby places.
@@ -52,10 +52,9 @@ Choose **Lightweight serverless MVP** with a ruthless boundary around the core l
 - **Service Worker + IndexedDB** — reasonable only for lightweight caching of challenge data, last route, and queued completion attempts; full offline-first sync should be a stretch goal.
 
 **External services / deployment options**
-- **AWS-first recommendation**: Amplify Hosting for the web frontend because current docs support static and SSR hosting, Git-based CI/CD, branch previews, and custom domains.
-- **Light backend on AWS**: API Gateway HTTP API + Lambda for simple challenge/progression endpoints; AWS docs position HTTP APIs as lower-cost and lower-latency than full REST APIs for lightweight Lambda-backed flows.
-- **Persistence on AWS**: DynamoDB is the simplest fit for challenge completions, users, badges, and seeded POIs if the team wants to stay fully on AWS.
-- **Acceptable non-AWS fallback**: Supabase for auth + Postgres + storage if team speed matters more than AWS alignment.
+- **Accepted platform**: Supabase for Auth, Postgres/RLS, private Storage, and the completion validation boundary.
+- **Accepted hosting**: Vercel for the web frontend, environment management, preview deployments, and production deploy logs.
+- **Superseded AWS plan**: Amplify Hosting, API Gateway/Lambda, DynamoDB, and S3 were considered earlier but are no longer the active implementation direction because team speed matters more than AWS alignment.
 - **Map/place data**: Mapbox, MapTiler, or OpenStreetMap-based options are viable; final choice should depend on free-tier limits and hackathon presentation needs.
 
 **Realistic first slice for 3 collaborators**
@@ -87,7 +86,7 @@ Choose **Lightweight serverless MVP** with a ruthless boundary around the core l
 - Historical QR risk is superseded for the active MVP because QR scanning is not the primary proof path; geolocation accuracy and photo permission failures remain the active proof risks.
 - Trying to ship auth, social graph, offline sync, and dual proof modes together will blow up hackathon scope.
 - Map/geocoding providers can introduce quota or pricing surprises if chosen late.
-- With no stack bootstrapped yet, proposal/spec/design work must explicitly choose frontend and backend foundations before implementation tasks.
+- With the platform decision now updated, implementation must follow Supabase + Vercel artifacts rather than the superseded AWS/Amplify plan.
 
 ### Ready for Proposal
-Yes — provided the next phase locks five decisions early: city scope, identity model, primary proof mode, map provider, and AWS-vs-speed backend preference.
+Yes - provided the next phase locks the exact city, seed dataset, and Supabase/Vercel environment ownership before implementation.
