@@ -25,6 +25,7 @@ La clave service role de Supabase nunca debe llegar al cliente. El frontend solo
 - Geolocation para distancia y validación de proximidad.
 - MediaDevices o captura de foto compatible para evidencia.
 - Web Share para compartir logros cuando esté disponible.
+- Service Worker y Web App Manifest para el shell PWA instalable con offline-lectura del catálogo. Límite estricto: el service worker solo cachea el app shell y el catálogo de desafíos en modo lectura; nunca cachea rutas de auth, Storage privado, ni el completado de desafíos (`submit_completion`), y no usa Background Sync API para encolar completados offline.
 
 QR no es la prueba principal del MVP. La prueba primaria es geolocalización más evidencia fotográfica.
 

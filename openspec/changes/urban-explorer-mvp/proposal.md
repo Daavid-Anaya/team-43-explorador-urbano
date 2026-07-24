@@ -14,12 +14,14 @@ Build a hackathon-ready web app for urban explorers. Users discover 8-12 curated
 - Minimal server/DB-derived completion validation; clients must never submit rewards, points, or badges.
 - Vercel-hosted web app with Supabase environment setup.
 - Native sharing of completed achievements when supported.
+- Installable PWA shell with read-only offline access to the cached challenge catalog (manifest, service worker, precached app shell, update prompt); challenge completion always requires network access.
 
 ### Out of Scope
 - Multi-city support, map-first discovery, global city coverage, and user-generated challenges.
 - Dynamic challenge catalog management.
 - Real-time multiplayer, social feeds, leaderboards beyond basic progress.
 - Complex anti-cheat, advanced fraud detection, photo moderation, and full offline-first sync.
+- Full offline-first sync: no Background Sync queuing of offline challenge completions, and no offline writes of any kind. Completion validation stays 100% server-side (`submit_completion`) and therefore always requires connectivity.
 - AWS/Amplify implementation work; that direction is superseded.
 
 ## Capabilities
@@ -30,6 +32,7 @@ Build a hackathon-ready web app for urban explorers. Users discover 8-12 curated
 - `challenge-completion`: geolocation proximity validation plus photo evidence capture/submission.
 - `progression-sharing`: derived points, badges, completion history, and achievement sharing.
 - `supabase-vercel-platform`: Supabase Auth/Postgres/RLS/Storage, safe server/DB validation, Vercel hosting, seed data, and environment setup.
+- `pwa-shell`: installable Web App Manifest, service worker with precached app shell, stale-while-revalidate read-only catalog caching, offline state indication, update prompt, and optional Share Target; no offline write/completion queuing.
 
 ### Modified Capabilities
 - None.
@@ -52,6 +55,7 @@ Accepted baseline decisions:
 | `src/app` | New | Discovery, auth, completion, progression UI |
 | `src/lib/supabase`, `supabase/*` | New | Supabase client boundary, schema, RLS, seed, storage, and server/DB validation contracts |
 | `vercel.json`, `.env.example`, `README.md` | New/Modified | Vercel deployment and environment guidance |
+| PWA shell (manifest, service worker, icons) | New | Installable app shell and read-only offline catalog caching |
 | `openspec/changes/urban-explorer-mvp` | Modified | Proposal/spec/design/tasks artifacts |
 
 ## Assumptions and Open Decisions

@@ -23,7 +23,7 @@ Chain strategy: feature-branch-chain
 |------|------|-----------|----------------------|-----------------|-------------------|
 | 1 | Bootstrap app + Supabase auth/data/storage seed path | PR1 base=feature branch | `npm run test -- app-shell supabase seed` | `npm run dev` + Supabase local/project login/list smoke | `package.json`, `src/app`, `src/lib/supabase`, `supabase/{migrations,seed}` |
 | 2 | Completion validation + evidence upload flow | PR2 base=PR1 | `npm run test -- completion submit-completion` | mocked geolocation + file upload completion smoke | `src/features/completion`, `src/shared/browser`, `supabase/migrations` validation boundary |
-| 3 | Progression, sharing, Vercel deploy, demo polish | PR3 base=PR2 | `npm run test -- progression e2e` | `npm run build` + Vercel hosted demo checklist | `src/features/progression`, `playwright`, deploy docs/config |
+| 3 | Progression, sharing, PWA install/offline-read shell, Vercel deploy, demo polish | PR3 base=PR2 | `npm run test -- progression e2e` | `npm run build` + Lighthouse PWA audit + Vercel hosted demo checklist | `src/features/progression`, `playwright`, PWA manifest/service worker/icons, deploy docs/config |
 
 ## Ownership Lanes
 
@@ -38,6 +38,7 @@ Chain strategy: feature-branch-chain
 - [ ] 1.3 [B] Add `supabase/seed/challenges.json` plus validation path; Dependency: exact city and seed dataset approved; AC: 8-12 one-city challenges use accepted fields/categories and seed rollback guidance exists; Verify: `npm run seed:check`.
 - [ ] 1.4 [B+C] Add derived progression rules without client-writable rewards; AC: points/badges derive from accepted completions; Verify: `npm run test -- progressionRules`.
 - [ ] 1.5 [A+B+C] Add `.github/workflows/*` CI once npm scripts exist; AC: workflow runs real build/test/lint/typecheck gates and documents omitted gates; Verify: inspect workflow plus first PR check run.
+- [ ] 1.6 [A] Add `vite-plugin-pwa` (Workbox `generateSW`) with Web App Manifest (name, short_name, icons 192/512/maskable, theme_color, background_color, `display: standalone`, `start_url`, orientation) and iOS/Android splash assets; AC: app qualifies as installable per `specs/pwa-shell/spec.md` and app shell precaches on build; Verify: `npm run build` then Lighthouse PWA audit.
 
 ## Phase 2: Feature Lanes
 
@@ -47,9 +48,15 @@ Chain strategy: feature-branch-chain
 - [ ] 2.4 [C] Add `src/shared/browser/photoEvidenceService.ts` and `src/features/completion/*`; AC: private evidence upload, permission-denied block, retry without duplicate completion; Verify: `npm run test -- completion photo`.
 - [ ] 2.5 [C] Add `src/features/progression/*` and `src/shared/browser/shareService.ts`; AC: derived points/badges/history restore and native-share fallback work; Verify: `npm run test -- progression share`.
 
+## Phase 2b: PWA Offline-Reading Shell
+
+- [ ] 2.6 [A] Add runtime caching (stale-while-revalidate) for the read-only challenge catalog and an offline state indicator; explicitly exclude Supabase Auth endpoints, `submit_completion`, and any private Storage evidence URL from the service worker cache; AC: catalog renders offline after a prior online visit and completion is blocked (never queued) offline per `specs/pwa-shell/spec.md`; Verify: `npm run build` then manual offline smoke (DevTools offline mode: browse cached catalog, attempt completion, confirm block message).
+- [ ] 2.7 [A] Add service worker update detection and a custom update prompt, plus a custom install prompt via `beforeinstallprompt`; AC: new SW versions prompt before activating, install prompt does not block usage when unsupported; Verify: `npm run build` then manual update-flow smoke (bump asset, reload, confirm prompt).
+- [ ] 2.8 [C] Add optional Web Share Target scoped to achievement sharing only; AC: shared content opens the achievement-sharing context and never triggers a completion submission; Verify: manual share-target smoke on a supporting platform/emulator.
+
 ## Phase 3: Integration / Verification / Demo
 
 - [ ] 3.1 [A+C] Wire Supabase session state, auth guards, and profile refresh in `src/app/App.tsx`; AC: persisted flows require login and browse fallbacks match specs; Verify: `npm run test -- auth app`.
 - [ ] 3.2 [C] Add Playwright flows in `playwright/e2e/urban-explorer.spec.ts`; AC: login, browse without location, evidence upload/completion, share fallback; Verify: `npm run test:e2e`.
 - [ ] 3.3 [B] Add Vercel/Supabase deployment scripts/docs in `package.json`, `vercel.json`, `.env.example`, `README.md`; AC: build/deploy steps, Vercel logs, Supabase logs, env safety, and rollback are documented; Verify: `npm run build` plus deploy dry run when configured.
-- [ ] 3.4 [A+B+C] Create `docs/demo-checklist.md`; AC: seed city, smoke path, expected failures, service-role safety check, rollback notes, and policy/function fix-forward guidance are documented; Verify: manual demo runbook review.
+- [ ] 3.4 [A+B+C] Create `docs/demo-checklist.md`; AC: seed city, smoke path, expected failures, service-role safety check, rollback notes, policy/function fix-forward guidance, PWA install check, and offline-read/offline-completion-block check are documented; Verify: manual demo runbook review plus Lighthouse PWA audit on the deployed URL.

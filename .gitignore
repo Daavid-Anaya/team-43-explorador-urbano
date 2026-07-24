@@ -1,4 +1,24 @@
-.atl
-
 node_modules
 dist
+coverage
+*.tsbuildinfo
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel
+
+# OS
+.DS_Store
+Thumbs.db
+
+# AI agent config
+CLAUDE.md
+AGENTS.md
+.claude/
+.agents/
+.vscode/
+.atl/

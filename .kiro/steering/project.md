@@ -10,6 +10,7 @@ Explorador Urbano es un MVP de hackathon para convertir la exploración de una c
 - Progresión con puntos, niveles y badges.
 - Compartir logros o resumen de progreso cuando el navegador lo permita.
 - Despliegue en Vercel con Supabase para autenticación, datos, RLS, storage y validación segura.
+- PWA instalable con offline-lectura: manifest, service worker y caché de solo lectura del catálogo de desafíos. Completar un desafío sigue requiriendo red porque la validación es 100% server-side.
 
 ## Límites de producto
 

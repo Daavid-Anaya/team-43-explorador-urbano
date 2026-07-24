@@ -30,6 +30,7 @@ El MVP se enfoca en una sola ciudad y en un recorrido controlado para reducir ri
 | Frontend | Vite + React + TypeScript |
 | Backend/cloud | Supabase |
 | Datos y archivos | Supabase Auth, Postgres/RLS y Storage privado para evidencia fotográfica. |
+| PWA | App instalable con manifest, service worker y caché de solo lectura del catálogo de desafíos (offline-lectura); completar un desafío siempre requiere red porque la validación es server-side. |
 | Flujo de trabajo | GitHub Issues, GitHub Projects, ramas cortas, PRs y revisiones. |
 
 ## Artefactos SDD/OpenSpec
@@ -83,6 +84,7 @@ Convenciones completas: ver `CONTRIBUTING.md`.
 - Configurar Supabase para autenticación, datos, RLS, storage privado y validación de completado.
 - Cargar datos semilla de desafíos y reglas base de progresión.
 - Implementar el flujo de descubrimiento, validación por ubicación/foto y progreso compartible.
+- Agregar el shell PWA instalable con offline de lectura (manifest, service worker, caché del catálogo) según `openspec/changes/urban-explorer-mvp/specs/pwa-shell/spec.md`.
 - Registrar comandos reales de desarrollo, testing y despliegue cuando existan.
 
 ## Para Reviewers del Hackathon
