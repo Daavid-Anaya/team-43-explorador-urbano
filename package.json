@@ -8,10 +8,12 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint src vite.config.ts",
     "test": "vitest run",
+    "test:supabase-contract": "vitest run src/lib/supabase/migration-contract.test.ts",
     "typecheck": "tsc -b",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.110.8",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },

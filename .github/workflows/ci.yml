@@ -36,5 +36,8 @@ jobs:
       - name: Test
         run: npm run test
 
+      - name: Supabase migration contract
+        run: npm run test:supabase-contract
+
       - name: Build
         run: npm run build
