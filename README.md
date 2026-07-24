@@ -34,15 +34,7 @@ El MVP se enfoca en una sola ciudad y en un recorrido controlado para reducir ri
 
 ## Artefactos SDD/OpenSpec
 
-Los artefactos técnicos se mantienen en inglés y son la fuente de verdad para alcance, requisitos y orden de implementación.
-
-| Artefacto | Para qué sirve |
-|----------|----------------|
-| `openspec/changes/urban-explorer-mvp/proposal.md` | Intención de producto, límites del MVP y dirección aceptada. |
-| `openspec/changes/urban-explorer-mvp/design.md` | Arquitectura, límites de responsabilidad y decisiones técnicas. |
-| `openspec/changes/urban-explorer-mvp/specs/*/spec.md` | Requisitos y escenarios que deben verificar los reviewers. |
-| `openspec/changes/urban-explorer-mvp/tasks.md` | Orden de implementación, lanes por colaborador, verificación y cortes de PR. |
-| `openspec/config.yaml` | Reglas SDD, estado de testing y supuestos de colaboración. |
+Los artefactos técnicos se mantienen en español neutral/profesional y son la fuente de verdad para alcance, requisitos y orden de implementación. Ver la tabla completa de artefactos y su propósito en la sección "Fuente de Verdad" de `CONTRIBUTING.md`.
 
 Si el código y OpenSpec no coinciden, se debe pausar y actualizar el plan antes de ampliar implementación. No inventar alcance de forma silenciosa.
 
@@ -54,27 +46,7 @@ No se mantiene una copia de specs en `.kiro/specs/` por ahora. Esto evita duplic
 
 ## Flujo de Colaboración
 
-Trabajamos con GitHub Flow y cambios revisables.
-
-| Paso | Regla |
-|------|-------|
-| Issue | Todo trabajo parte de un issue con criterios de aceptación. |
-| Project | GitHub Projects muestra estado, responsable, bloqueos y revisión. |
-| Rama | La rama debe ser corta, descriptiva y acotada a un issue o slice. |
-| PR | El PR debe linkear el issue, citar OpenSpec y mostrar evidencia de verificación. |
-| Review | La revisión valida comportamiento, alineación con SDD, pruebas y tamaño del diff. |
-| Merge | Se mergea solo después de aprobación y verificación registrada. |
-
-Convenciones completas: ver `CONTRIBUTING.md`.
-
-## Ruta Rápida para Contribuidores
-
-1. Leer `openspec/changes/urban-explorer-mvp/proposal.md` para entender el objetivo.
-2. Revisar `openspec/changes/urban-explorer-mvp/tasks.md` para elegir el slice correcto.
-3. Tomar o crear un issue con criterios de aceptación claros.
-4. Crear una rama enfocada desde la rama de integración vigente.
-5. Implementar solo el alcance del issue.
-6. Abrir un PR con referencias SDD/OpenSpec, evidencia de verificación y notas para reviewers.
+Trabajamos con GitHub Flow y cambios revisables: issue -> rama -> PR -> revisión -> merge. El detalle completo del flujo, nombres de ramas, columnas del Project y la ruta rápida para contribuir están en `CONTRIBUTING.md`.
 
 ## Próximos Pasos
 

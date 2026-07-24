@@ -31,6 +31,9 @@ execute function public.set_updated_at();
 alter table public.profiles enable row level security;
 alter table public.profiles force row level security;
 
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on public.profiles to authenticated;
+
 do $$
 begin
   if not exists (
@@ -117,6 +120,8 @@ execute function public.set_updated_at();
 alter table public.challenges enable row level security;
 alter table public.challenges force row level security;
 
+grant select on public.challenges to anon, authenticated;
+
 do $$
 begin
   if not exists (
@@ -165,6 +170,8 @@ execute function public.set_updated_at();
 
 alter table public.completions enable row level security;
 alter table public.completions force row level security;
+
+grant select on public.completions to authenticated;
 
 do $$
 begin
