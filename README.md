@@ -24,6 +24,7 @@ Otros scripts:
 - **Fuente de verdad** (alcance, requisitos, specs, decisiones técnicas y tareas): `openspec/changes/urban-explorer-mvp/`. Si el código y OpenSpec no coinciden, se pausa y se actualiza el plan antes de ampliar implementación.
 - **Cómo contribuir** (GitHub Flow, PRs, convenciones): `CONTRIBUTING.md`.
 - **Colaboradores con Kiro**: `.kiro/steering/steering.md`.
+- **Despliegue en Vercel** (estado actual, incluidos bloqueos pendientes): `docs/deploy.md`.
 
 ## Stack
 
