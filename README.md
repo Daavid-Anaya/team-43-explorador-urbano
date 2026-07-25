@@ -8,8 +8,9 @@ Explorador Urbano es un MVP de hackathon para descubrir una ciudad a través de 
 |------|--------|
 | Planificación SDD/OpenSpec | Presente en `openspec/changes/urban-explorer-mvp/`. |
 | Configuración de colaboración | Presente en `.github/` y `CONTRIBUTING.md`. |
-| Bootstrap de aplicación | Puede no existir todavía; no asumir scripts `npm` hasta que se implemente el primer slice. |
-| Código de aplicación | Fuera de alcance para esta documentación inicial. |
+| Bootstrap de aplicación | Vite + React + TypeScript presente con scripts reales de desarrollo, verificación y build. |
+| CI | GitHub Actions ejecuta `typecheck`, `lint`, `test` y `build`. |
+| Supabase base | Cliente, configuración de entorno y migración base de Auth/datos/storage presentes; smoke de lectura anon registrado en OpenSpec. |
 
 ## Alcance del MVP
 
@@ -51,14 +52,13 @@ Trabajamos con GitHub Flow y cambios revisables: issue -> rama -> PR -> revisió
 ## Próximos Pasos
 
 - Confirmar la ciudad inicial y los 8-12 desafíos del demo.
-- Bootstrappear la aplicación con Vite, React y TypeScript.
-- Configurar Supabase para autenticación, datos, RLS, storage privado y validación de completado.
-- Cargar datos semilla de desafíos y reglas base de progresión.
+- Cargar datos semilla de desafíos y agregar la validación del dataset.
+- Completar reglas base de progresión derivada.
 - Implementar el flujo de descubrimiento, validación por ubicación/foto y progreso compartible.
-- Registrar comandos reales de desarrollo, testing y despliegue cuando existan.
+- Documentar deploy Vercel/Supabase y checklist de demo cuando esos flujos estén configurados.
 
 ## Para Reviewers del Hackathon
 
 - El valor del proyecto está en validar una experiencia urbana gamificada, no en cubrir múltiples ciudades desde el inicio.
-- La documentación actual prioriza planificación, alcance y colaboración antes del bootstrap de código.
+- El bootstrap Vite/React, los scripts npm, CI y la base de Supabase ya existen; revisar próximos cambios contra esos contratos.
 - Los artefactos OpenSpec explican el alcance esperado y permiten revisar si la implementación futura se mantiene enfocada.
