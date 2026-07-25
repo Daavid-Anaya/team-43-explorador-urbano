@@ -7,6 +7,7 @@ const REQUIRED_FIELDS = [
   "title",
   "description",
   "category",
+  "city",
   "latitude",
   "longitude",
   "radiusMeters",
@@ -17,6 +18,12 @@ const REQUIRED_FIELDS = [
 ] as const;
 
 describe("Seed de desafíos (Ciudad de México)", () => {
+  it("usa la misma ciudad en todos los registros", () => {
+    const cities = new Set(challenges.map((c) => c.city));
+    expect(cities.size).toBe(1);
+    expect(cities.has("Ciudad de México")).toBe(true);
+  });
+
   it("contiene entre 8 y 12 desafíos", () => {
     expect(challenges.length).toBeGreaterThanOrEqual(8);
     expect(challenges.length).toBeLessThanOrEqual(12);
