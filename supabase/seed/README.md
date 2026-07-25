@@ -14,9 +14,18 @@ Correr `npm run seed:check` antes de cargar el dataset a Supabase. El script (`c
 - Coordenadas válidas y puntos/radio positivos.
 - Sin títulos duplicados.
 
+Para validar en base de datos la restricción de categorías, usar el test pgTAP versionado en `supabase/tests/challenge_category_constraint_test.sql`:
+
+```bash
+supabase start
+npm run seed:test:db
+```
+
+Este comando es opt-in y requiere Supabase CLI con el stack local iniciado. No forma parte del CI por defecto porque depende de Docker y de una configuración local de Supabase (`supabase/config.toml` no se versiona en este repo).
+
 ## Carga a Supabase
 
-El JSON no se inserta todavía de forma automática porque la tabla `public.challenges` no tiene aún las columnas `radiusMeters`, `photoPrompt` ni `estimatedMinutes` (ver nota de esquema pendiente en `tasks.md`, tarea 1.3). Una vez que exista la migración que agregue esas columnas, cargar el dataset vía SQL Editor de Supabase o un script de carga que lea `challenges.json` e inserte filas en `public.challenges`.
+El JSON no se inserta de forma automática. Cargar el dataset vía SQL Editor de Supabase o un script de carga que lea `challenges.json` e inserte filas en `public.challenges` después de aplicar las migraciones del repo.
 
 ## Guía de Rollback
 
