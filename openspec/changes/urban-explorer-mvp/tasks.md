@@ -10,7 +10,7 @@
 | División sugerida | PR1 bootstrap+base de Supabase -> PR2 flujo de completado -> PR3 progresión+deploy en Vercel+demo |
 | Estrategia de entrega | auto-chain |
 | Estrategia de cadena | feature-branch-chain |
-| Estado de CI | Pendiente hasta que PR1 cree scripts reales de `package.json`; no inventar marcadores de posición. |
+| Estado de CI | Presente en `.github/workflows/ci.yml`; ejecuta `npm run typecheck`, `npm run lint`, `npm run test` y `npm run build`. |
 
 Decisión necesaria antes de aplicar: Sí - elegir la ciudad exacta y comprometer el dataset semilla inicial de 8-12 desafíos antes de comenzar la tarea 1.3 de PR1.
 PRs encadenados recomendados: Sí
@@ -37,7 +37,7 @@ Riesgo de presupuesto de 400 líneas: Alto
 - [x] 1.2 [B] Crear `src/lib/supabase/*`, `.env.example` y `supabase/migrations/*` para perfiles de Auth, desafíos, completados, storage privado de evidencia y RLS; AC: el cliente del navegador usa solo anon key y la service role está ausente del entorno del cliente; Verificar: smoke local/proyecto de Supabase cuando esté configurado. Verificado: proyecto Supabase real creado, migración aplicada (tablas, RLS, bucket `evidence` con políticas) más fix de `GRANT` de tabla que la migración original omitía; smoke test de lectura vía cliente anon confirmado en verde.
 - [ ] 1.3 [B] Agregar `supabase/seed/challenges.json` más la ruta de validación; Dependencia: ciudad exacta y dataset semilla aprobados; AC: 8-12 desafíos de una sola ciudad usan los campos/categorías aceptados y existe guía de rollback de semilla; Verificar: `npm run seed:check`.
 - [ ] 1.4 [B+C] Agregar reglas de progresión derivada sin recompensas escribibles por el cliente; AC: los puntos/badges derivan de completados aceptados; Verificar: `npm run test -- progressionRules`.
-- [ ] 1.5 [A+B+C] Agregar CI en `.github/workflows/*` una vez que existan los scripts de npm; AC: el workflow ejecuta compuertas reales de build/test/lint/typecheck y documenta las compuertas omitidas; Verificar: inspeccionar el workflow más la primera corrida de checks del PR.
+- [x] 1.5 [A+B+C] Agregar CI en `.github/workflows/*` una vez que existan los scripts de npm; AC: el workflow ejecuta compuertas reales de build/test/lint/typecheck y documenta las compuertas omitidas; Verificar: inspeccionar el workflow más la primera corrida de checks del PR. Verificado: `.github/workflows/ci.yml` ejecuta `typecheck`, `lint`, `test` y `build` con scripts reales.
 
 ## Fase 2: Lanes de Features
 
@@ -73,8 +73,8 @@ Hallazgos de una revisión exhaustiva del workspace contra `proposal.md`, `desig
 | Deploy | No hay `vercel.json` ni docs de deploy reales | Tarea 3.3 |
 | Checklist de demo | `docs/demo-checklist.md` no existe | Tarea 3.4 |
 
-### Redundancia encontrada
+### Nota de CI
 
-- `.github/workflows/ci.yml` ejecuta el test de contrato de migración dos veces: el paso `Test` (`npm run test` = `vitest run`) ya ejecuta `src/lib/supabase/migration-contract.test.ts` porque corre la suite completa de `src/`, y el paso separado `Supabase migration contract` (`npm run test:supabase-contract`) re-ejecuta ese mismo archivo. No rompe nada, pero desperdicia tiempo de CI sin agregar aislamiento ni una compuerta distinta. Opciones de arreglo: excluir ese archivo del script general `test`, o eliminar el paso dedicado y conservar el check nombrado solo si el objetivo es la visibilidad en el PR.
+- La redundancia previa del test de contrato de migración fue resuelta: CI ya no tiene un paso separado para `npm run test:supabase-contract`; la suite corre una vez dentro de `npm run test`.
 
 No se encontró ninguna otra redundancia estructural entre los artefactos de OpenSpec, `.kiro/steering/*` y `CONTRIBUTING.md` — son consistentes y no se solapan (el steering de Kiro difiere explícitamente a OpenSpec como la fuente de verdad y no duplica specs).

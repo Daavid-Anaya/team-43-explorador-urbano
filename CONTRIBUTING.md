@@ -89,7 +89,7 @@ Todo PR debe incluir:
 - Referencias OpenSpec para requisitos y tareas.
 - Límites claros de alcance y límite de rollback.
 - Capturas o notas de demo para cambios de UI.
-- Una nota cuando los scripts esperados todavía no existen porque el repositorio sigue en bootstrap.
+- Resultado de las compuertas disponibles o una razón concreta cuando alguna no aplique.
 - Si un chequeo queda como `N/A`, una razón concreta en la misma línea; `N/A` solo no es evidencia suficiente.
 
 Reglas de revisión:
@@ -107,7 +107,7 @@ Un issue está listo cuando:
 - [ ] Usa `feature_task.yml` o `bug_report.yml`.
 - [ ] Linkea el artefacto OpenSpec relevante o explica por qué no aplica.
 - [ ] Los criterios de aceptación son observables.
-- [ ] Los pasos de verificación están nombrados, aunque los scripts todavía no existan.
+- [ ] Los pasos de verificación están nombrados y distinguen compuertas actuales de comandos futuros.
 - [ ] Responsable/lane y slice de PR previsto están claros.
 - [ ] El riesgo de tamaño de review está explicitado.
 - [ ] Dependencias y bloqueos son visibles.
@@ -119,7 +119,7 @@ Un PR está terminado cuando:
 - [ ] Los criterios de aceptación del issue linkeado están satisfechos.
 - [ ] Las referencias SDD todavía coinciden con el comportamiento entregado.
 - [ ] Tests enfocados, build checks o verificación manual están registrados con comandos o escenarios exactos.
-- [ ] Los scripts de bootstrap faltantes están documentados, no ocultos.
+- [ ] Las compuertas actuales o los gaps pendientes están documentados, no ocultos.
 - [ ] El feedback de review está resuelto.
 - [ ] El PR se mantiene dentro del presupuesto de review o documenta una excepción justificada.
 - [ ] La rama no contiene cambios no relacionados, secretos ni atribuciones automáticas de herramientas.
@@ -145,14 +145,19 @@ Reglas:
 
 ## Testing y Verificación
 
-Este repositorio puede no tener scripts hasta que llegue el slice de bootstrap. Es esperado, pero la verificación debe ser explícita igual.
+El repositorio ya tiene scripts reales y CI de GitHub Actions para las compuertas base. Antes de abrir o actualizar un PR, registrar el resultado de los comandos que correspondan al alcance del cambio.
 
-CI queda pendiente intencionalmente hasta que PR1 cree `package.json` y scripts reales. PR1 debe agregar el workflow de GitHub Actions con los comandos disponibles de build, test, lint y typecheck; no se deben inventar scripts ficticios solo para llenar la plantilla.
+Compuertas actuales:
+
+- `npm run typecheck`
+- `npm run lint`
+- `npm run test`
+- `npm run build`
 
 | Situación | Qué registrar |
 |-----------|---------------|
 | El script existe | Comando exacto y resultado. |
-| El script todavía no existe | Comando futuro esperado y tarea de bootstrap que lo agregará. |
+| El script todavía no existe | Comando futuro esperado y tarea OpenSpec que lo agregará. |
 | Chequeo manual de UI | Navegador/dispositivo, escenario y resultado observado. |
 | Chequeo Supabase/Vercel | Smoke local/proyecto, dry-run o comando de deploy y nota de cuenta/entorno. |
 | No aplica | `N/A - razón: ...`, explicando por qué no aplica para este cambio. |
