@@ -90,4 +90,4 @@ Guía de recuperación post-despliegue:
 
 ## Preguntas Abiertas
 
-- [ ] Los valores exactos de la ciudad y del dataset semilla inicial de 8-12 desafíos.
+- [x] Los valores exactos de la ciudad y del dataset semilla inicial de 8-12 desafíos. Decisión: Ciudad de México, 10 desafíos en `supabase/seed/challenges.json` (2 por categoría).

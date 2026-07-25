@@ -6,6 +6,9 @@ dist
 .env.local
 .env.*.local
 
+# Local Supabase CLI configuration
+supabase/config.toml
+
 # AI agent config
 CLAUDE.md
 AGENTS.md
