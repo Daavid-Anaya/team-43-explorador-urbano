@@ -11,6 +11,7 @@
     "test:supabase-contract": "vitest run src/lib/supabase/migration-contract.test.ts",
     "seed:check": "vitest run supabase/seed/challenges.seed-check.test.ts",
     "seed:test:db": "supabase test db supabase/tests/challenge_category_constraint_test.sql",
+    "test:submit-completion:db": "supabase test db supabase/tests/submit_completion_test.sql",
     "typecheck": "tsc -b",
     "preview": "vite preview"
   },
